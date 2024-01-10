@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('performance_efficiency', function (Blueprint $table) {
+        Schema::create('performance', function (Blueprint $table) {
             $table->id();
             $table->integer('cycle_time');
             $table->integer('jumlah_produksi');
-            $table->integer('target_produksi');
-            $table->integer('actual_cycle_time');
-            $table->string('performance_efficiency');
+            $table->integer('processed_amount');
+            $table->integer('loading_time');
+            $table->integer('ideal_cycle_time');
+            $table->integer('operation_time');
+            $table->string('performance');
             // relasi
             $table->unsignedBigInteger('availability_id');
             $table->foreign('availability_id')->references('id')->on('availability');

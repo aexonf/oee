@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PerformanceEfficiency extends Model
+class Quality extends Model
 {
     use HasFactory;
 
-    protected $table = 'performance_efficiency';
+    protected $table = 'quality';
 
     protected $guarded = [];
 }

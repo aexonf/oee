@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('quality_product', function (Blueprint $table) {
+        Schema::create('quality', function (Blueprint $table) {
             $table->id();
-            $table->integer('reject_setup');
-            $table->integer('reject_rework');
-            $table->string('rate_of_quality_product');
+            $table->integer('processed_amount');
+            $table->integer('defect_amount');
+            $table->string('quality');
 
             // relasi
             $table->unsignedBigInteger('performance_efficiency_id');
