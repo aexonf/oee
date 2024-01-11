@@ -17,11 +17,11 @@ return new class extends Migration
              $table->unsignedBigInteger('availability_id');
              $table->foreign('availability_id')->references('id')->on('availability');
 
-             $table->unsignedBigInteger('performance_efficiency_id');
-             $table->foreign('performance_efficiency_id')->references('id')->on('performance_efficiency');
+             $table->unsignedBigInteger('performance_id');
+             $table->foreign('performance_id')->references('id')->on('performance');
 
-             $table->unsignedBigInteger('quality_product_id');
-             $table->foreign('quality_product_id')->references('id')->on('quality_product');
+             $table->unsignedBigInteger('quality_id');
+             $table->foreign('quality_id')->references('id')->on('quality');
 
 
             $table->timestamps();
