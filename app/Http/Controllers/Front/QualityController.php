@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Front;
 
+use App\Http\Controllers\Controller;
 use App\Models\Performance;
 use App\Models\Quality;
 use Illuminate\Http\Request;
@@ -26,22 +27,15 @@ public function create(Request $request, $id)
 {
     // Validasi input data
     $validasi = $request->validate([
-        "processed_amount" => "integer",
-        "defect_amount" => "integer",
+        "reject_setup" => "integer",
+        "reject_rework" => "integer",
     ]);
 
     // Mendapatkan objek Performance berdasarkan ID
     $performance = Performance::find($id);
 
-    // Menghitung jumlah produk yang berhasil diproses (tanpa cacat)
-    $processedAmount = $validasi["processed_amount"] - $validasi["defect_amount"];
-
-    // Menghitung persentase kualitas berdasarkan produk yang berhasil diproses
-    $quality = $processedAmount * 100;
-
-    // Menambahkan hasil kalkulasi ke dalam array validasi
-    $validasi["quality"] = $quality;
-    $validasi["performance_id"] = $performance->id;
+    $rateOfQualityProduct = ($performance->jumlah_produksi - $validasi["reject_setup"] - $validasi["reject_rework"]) / $performance->jumlah_produksi * 100;
+    $validasi["rate_of_quality_product"] = $rateOfQualityProduct;
 
     // Membuat data Quality dengan menggunakan model dan data validasi
     $create = Quality::create($validasi);
