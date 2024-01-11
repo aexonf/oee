@@ -9,14 +9,10 @@ use Illuminate\Support\Facades\Session;
 
 class AvailabilityController extends Controller
 {
-
-
     public function index()
     {
-        return view('');
+        return view(''); // Make sure to provide the correct view name
     }
-
-
 
     /**
      * Menangani permintaan pembuatan data Availability.
@@ -26,47 +22,45 @@ class AvailabilityController extends Controller
      */
     public function create(Request $request)
     {
-
         // Validasi input data
         $validasi = $request->validate([
             "jam_kerja" => "integer",
             "jam_lembur" => "integer",
-            "breakdown" => "integer",
+            "machine_working_times" => "integer",
             "planned_downtime" => "integer",
             "loading_time" => "integer",
+            "failure_repair" => "integer",
             "setup_adjustment" => "integer",
             "operation_time" => "integer",
         ]);
 
-        // Kalkulasi planned downtime
-        $planned_downtime = $validasi["breakdown"] + $validasi["setup_adjustment"];
+        // Menghitung total waktu kerja mesin (jam kerja + jam lembur)
+        $machineWorkingTimes = $validasi["jam_kerja"] + $validasi["jam_lembur"];
 
-        // Kalkulasi loading time
-        $loading_time = $validasi["jam_kerja"] - $planned_downtime;
+        // Menghitung waktu loading (total waktu kerja - downtime terjadwal)
+        $loadingTime = $machineWorkingTimes - $validasi["planned_downtime"];
 
-        // Kalkulasi operation time
-        $operation_time = $loading_time - $planned_downtime;
+        // Menghitung waktu operasi (waktu loading - waktu failure repair - waktu setup adjustment)
+        $operationTime = $loadingTime - $validasi["failure_repair"] - $validasi["setup_adjustment"];
 
-        // Kalkulasi availability
-        $availability = ($operation_time / $loading_time) * 100;
+        // Menghitung rasio ketersediaan (selisih waktu loading dengan loading time, diubah ke persen)
+        $availabilityRatio = ($loadingTime - $validasi["loading_time"]) / $loadingTime * 100;
 
         // Menambahkan hasil kalkulasi ke dalam array validasi
-        $validasi["planned_downtime"] = $planned_downtime;
-        $validasi["loading_time"] = $loading_time;
-        $validasi["operation_time"] = $operation_time;
-        $validasi["availability"] = $availability;
+        $validasi["machine_working_times"] = $machineWorkingTimes;
+        $validasi["loading_time"] = $loadingTime;
+        $validasi["operation_time"] = $operationTime;
+        $validasi["availability_ratio"] = $availabilityRatio;
 
-
-        // menyimpan ke database
+        // Menyimpan data ke database
         $create = Availability::create($validasi);
 
-        // mengecek jika create berhasil atau gagal
-
+        // Memberikan feedback menggunakan flash message
         if ($create) {
-            Session::flash("success", "Berhasil membuat availability");
+            return redirect()->back()->with("success", "Berhasil membuat availability");
+        } else {
+            return redirect()->back()->with("error", "Gagal membuat availability");
         }
-
-        Session::flash("error", "Gagal membuat availability");
-        return redirect()->back();
     }
+    
 }
