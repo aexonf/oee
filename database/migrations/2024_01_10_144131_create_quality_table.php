@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('quality');
 
             // relasi
-            $table->unsignedBigInteger('performance_efficiency_id');
-            $table->foreign('performance_efficiency_id')->references('id')->on('performance_efficiency');
+            $table->unsignedBigInteger('performance_id');
+            $table->foreign('performance_id')->references('id')->on('performance');
             $table->timestamps();
         });
     }
