@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Front;
+namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
 use App\Models\Availability;
@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\Session;
 class PerformanceController extends Controller
 {
 
-    public function index()
+    public function index($id)
     {
-        return view('');
+        return view('pages.performance.index', ["data" => Performance::find($id)]);
     }
 
     /**

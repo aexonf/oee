@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Front;
+namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
 use App\Models\Availability;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 
 class AvailabilityController extends Controller
 {
     public function index()
     {
-        return view(''); // Make sure to provide the correct view name
+        return view('pages.availability.index');
     }
 
     /**
@@ -62,5 +61,5 @@ class AvailabilityController extends Controller
             return redirect()->back()->with("error", "Gagal membuat availability");
         }
     }
-    
+
 }

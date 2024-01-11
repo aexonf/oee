@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Front;
+namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
 use App\Models\Performance;
@@ -11,8 +11,8 @@ use Illuminate\Support\Facades\Session;
 class QualityController extends Controller
 {
 
-    public function index(){
-        return view('');
+    public function index($id){
+        return view('pages.availability.index', ["data" => Quality::find($id)]);
     }
 
 

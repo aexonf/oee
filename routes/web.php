@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Back\AvailabilityController;
+use App\Http\Controllers\Back\PerformanceController;
+use App\Http\Controllers\Back\QualityController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +18,23 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('');
+});
+
+
+Route::prefix('/admin')->group(function() {
+
+
+    Route::controller(AvailabilityController::class)->prefix("/availability")->group(function () {
+        Route::get("/", 'index');
+        Route::post("/", 'create');
+    });
+
+    Route::controller(PerformanceController::class)->prefix("/performance")->group(function () {
+
+        Route::get("/", 'index');
+
+    });
+
+
+
 });
