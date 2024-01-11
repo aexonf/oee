@@ -15,12 +15,13 @@ return new class extends Migration
             $table->id();
             $table->integer('jam_kerja');
             $table->integer("jam_lembur");
-            $table->integer("breakdown");
+            $table->integer("machine_working_times");
             $table->integer("planned_downtime");
             $table->integer("loading_time");
+            $table->integer("failure_repair");
             $table->integer("setup_adjustment");
             $table->integer("operation_time");
-            $table->string("availability");
+            $table->string("availability_ratio");
             $table->timestamps();
         });
     }

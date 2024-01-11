@@ -15,11 +15,9 @@ return new class extends Migration
             $table->id();
             $table->integer('cycle_time');
             $table->integer('jumlah_produksi');
-            $table->integer('processed_amount');
-            $table->integer('loading_time');
-            $table->integer('ideal_cycle_time');
-            $table->integer('operation_time');
-            $table->string('performance');
+            $table->integer('target_produksi');
+            $table->integer('actual_cycle_time');
+            $table->string('performance_efficiency');
             // relasi
             $table->unsignedBigInteger('availability_id');
             $table->foreign('availability_id')->references('id')->on('availability');

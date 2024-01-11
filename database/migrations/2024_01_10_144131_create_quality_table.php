@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('quality', function (Blueprint $table) {
             $table->id();
-            $table->integer('processed_amount');
-            $table->integer('defect_amount');
-            $table->string('quality');
+            $table->integer('reject_setup');
+            $table->integer('reject_rework');
+            $table->string('rate_of_quality_product');
 
             // relasi
             $table->unsignedBigInteger('performance_id');
