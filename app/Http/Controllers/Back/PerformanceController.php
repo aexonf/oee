@@ -63,4 +63,10 @@ class PerformanceController extends Controller
         // Kembali ke halaman sebelumnya
         return redirect()->back();
     }
+
+    public function removeAll()
+    {
+        Performance::truncate();
+        return redirect()->back();
+    }
 }
