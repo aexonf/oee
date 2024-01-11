@@ -29,31 +29,26 @@ class PerformanceController extends Controller
         $validasi = $request->validate([
             "cycle_time" => "integer",
             "jumlah_produksi" => "integer",
-            "processed_amount" => "integer",
-            "loading_time" => "integer",
-            "ideal_cycle_time" => "integer",
-            "operation_time" => "integer",
+            "target_produksi" => "integer",
+            "actual_cycle_time" => "integer",
         ]);
 
         // Mendapatkan objek Availability berdasarkan ID
         $availability = Availability::find($id);
 
-        // Menambahkan ID Availability ke dalam data validasi
-        $validasi["availability_id"] = $availability->id;
+        // Menghitung target produksi berdasarkan rumus yang diberikan
+        $targetProduksi = $availability->operation_time / $validasi["cycle_time"];
 
-        // Menghitung performance berdasarkan rumus yang diberikan
-        $performance = ($validasi["jumlah_produksi"] * $validasi["ideal_cycle_time"]) / $validasi["operation_time"] * 100;
+        // Menghitung actual cycle time berdasarkan rumus yang diberikan
+        $actualCycleTime = $availability->operation_time / $validasi["jumlah_produksi"];
 
-        // Menghitung cycle time berdasarkan rumus yang diberikan
-        $cycleTime = ($validasi["loading_time"] / $validasi["processed_amount"]) * 100;
-
-        // Menghitung ideal cycle time berdasarkan rumus yang diberikan
-        $idealCycleTime = $cycleTime * $availability->jam_kerja;
+        // Menghitung performance efficiency berdasarkan rumus yang diberikan
+        $performance = $validasi["jumlah_produksi"] * $validasi["cycle_time"] / $availability->operation_time * 100;
 
         // Menambahkan hasil kalkulasi ke dalam array validasi
-        $validasi["cycle_time"] = $cycleTime;
-        $validasi["ideal_cycle_time"] = $idealCycleTime;
-        $validasi["performance"] = $performance;
+        $validasi["target_produksi"] = $targetProduksi;
+        $validasi["actual_cycle_time"] = $actualCycleTime;
+        $validasi["performance_efficiency"] = $performance;
 
         // Membuat data Performance dengan menggunakan model dan data validasi
         $create = Performance::create($validasi);
@@ -68,6 +63,4 @@ class PerformanceController extends Controller
         // Kembali ke halaman sebelumnya
         return redirect()->back();
     }
-
-    
 }
