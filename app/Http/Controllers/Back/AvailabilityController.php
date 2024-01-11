@@ -62,4 +62,10 @@ class AvailabilityController extends Controller
         }
     }
 
+    public function removeAll()
+    {
+        Availability::truncate();
+        return redirect()->back();
+    }
+
 }
