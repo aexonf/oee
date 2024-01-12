@@ -27,14 +27,22 @@ Route::prefix('/admin')->group(function() {
     Route::controller(AvailabilityController::class)->prefix("/availability")->group(function () {
         Route::get("/", 'index');
         Route::post("/", 'create');
+        Route::delete("/", 'removeAll');
     });
 
     Route::controller(PerformanceController::class)->prefix("/performance")->group(function () {
-
-        Route::get("/", 'index');
-
+        Route::get("/{id}", 'index');
+        Route::post("/", 'create');
+        Route::delete("/", 'removeAll');
     });
 
+    Route::controller(QualityController::class)->prefix("/quality")->group(function () {
+
+        Route::get("/{id}", 'index');
+        Route::post("/", 'create');
+        Route::delete("/", 'removeAll');
+
+    });
 
 
 });
