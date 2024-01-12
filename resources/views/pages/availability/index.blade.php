@@ -1,6 +1,6 @@
 @extends('components.elements.app')
 
-@section('title', 'Simaku Admin - Setting')
+@section('title', 'OEE - Availability Ratio')
 
 @push('style')
     <!-- CSS Libraries -->
@@ -111,8 +111,6 @@
                                 <div>
                                     <button type="submit" class="btn btn-primary ml-2 disabled" id="button-simpan"
                                         disabled>Simpan</button>
-                                    <button type="submit" class="btn btn-danger ml-2 disabled" id="button-lanjut"
-                                        disabled>Lanjut</button>
                                 </div>
                             </div>
                             {{-- card --}}
@@ -143,6 +141,11 @@
                                 </div>
                             </div>
                         </form>
+                        <div class="d-flex justify-content-end my-5">
+                            {{-- dapetin id nya --}}
+                            <a href="{{ route('performance', ['id' => 1]) }}" class="btn btn-success ml-2"
+                                id="button-lanjut">Lanjut</a>
+                        </div>
                     </div>
                 </div>
             </div>

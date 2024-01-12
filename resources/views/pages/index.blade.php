@@ -14,49 +14,32 @@
             </div>
 
             <div class="section-body">
-                <div class="row justify-content-around">
-                    <div class="col-md-4 col-sm-6 col-12">
-                        <div class="card card-statistic-1">
-                            <div class="card-icon bg-primary">
-                                <i class="fas fa-users"></i>
-                            </div>
-                            <div class="card-wrap">
-                                <div class="card-header">
-                                    <h4>Total Buku</h4>
-                                </div>
-                                <div class="card-body">
-                                </div>
-                            </div>
-                        </div>
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                        <h3>Data</h3>
+                        <a href="{{ route('availability') }}" class="btn btn-primary btn-lg">
+                            Buat
+                        </a>
                     </div>
-                    <div class="col-md-4 col-sm-6 col-12">
-                        <div class="card card-statistic-1">
-                            <div class="card-icon bg-danger">
-                                <i class="fas fa-users"></i>
-                            </div>
-                            <div class="card-wrap">
-                                <div class="card-header">
-                                    <h4>Total Siswa</h4>
-                                </div>
-                                <div class="card-body">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-12">
-                        <div class="card card-statistic-1">
-                            <div class="card-icon bg-warning">
-                                <i class="fas fa-users"></i>
-                            </div>
-                            <div class="card-wrap">
-                                <div class="card-header">
-                                    <h4>Total Peminjam</h4>
-                                </div>
-                                <div class="card-body">
-                                    0
-                                </div>
-                            </div>
-                        </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">col 1</th>
+                                    <th scope="col">col 2</th>
+                                    <th scope="col">col 3</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>2</td>
+                                    <td>3</td>
+                                    <td>4</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
