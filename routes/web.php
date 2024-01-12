@@ -17,32 +17,49 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('');
+    return view('pages.index');
 });
+
 
 
 Route::prefix('/admin')->group(function() {
 
 
     Route::controller(AvailabilityController::class)->prefix("/availability")->group(function () {
-        Route::get("/", 'index');
-        Route::post("/", 'create');
-        Route::delete("/", 'removeAll');
+// <<<<<<< HEAD
+//         Route::get("/", 'index');
+//         Route::post("/", 'create');
+//         Route::delete("/", 'removeAll');
+//     });
+
+//     Route::controller(PerformanceController::class)->prefix("/performance")->group(function () {
+//         Route::get("/{id}", 'index');
+//         Route::post("/", 'create');
+//         Route::delete("/", 'removeAll');
+//     });
+
+//     Route::controller(QualityController::class)->prefix("/quality")->group(function () {
+
+//         Route::get("/{id}", 'index');
+//         Route::post("/", 'create');
+//         Route::delete("/", 'removeAll');
+
+//     });
+
+// =======
+        Route::get("/", 'index')->name("availability");
+        Route::post("/", 'create')->name("availability.create");
     });
 
     Route::controller(PerformanceController::class)->prefix("/performance")->group(function () {
-        Route::get("/{id}", 'index');
-        Route::post("/", 'create');
-        Route::delete("/", 'removeAll');
+        Route::get("/{id}", 'index')->name("performance");
     });
 
     Route::controller(QualityController::class)->prefix("/quality")->group(function () {
-
-        Route::get("/{id}", 'index');
-        Route::post("/", 'create');
-        Route::delete("/", 'removeAll');
-
+        Route::get("/", 'index')->name("quality");
     });
-
+    Route::get("/oee", function () {
+        return view('pages.oee.index');
+    })->name("oee");
 
 });

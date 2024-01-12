@@ -10,7 +10,7 @@
             <li class="menu-header">Dashboard</li>
 
             <li class="{{ Request::is('admin') ? 'active' : '' }}">
-                <a class="nav-link" href="" id="route-admin"><i class="fas fa-home"></i>
+                <a class="nav-link" href="/" id="route-admin"><i class="fas fa-home"></i>
                     <span>EEO</span></a>
             </li>
 
