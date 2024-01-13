@@ -10,7 +10,7 @@ class AvailabilityController extends Controller
 {
     public function index()
     {
-        return view('pages.availability.index');
+        return view('pages.availability.index', ["data" => Availability::all()]);
     }
 
     /**
@@ -33,23 +33,11 @@ class AvailabilityController extends Controller
             "operation_time" => "integer",
         ]);
 
-        // Menghitung total waktu kerja mesin (jam kerja + jam lembur)
-        $machineWorkingTimes = $validasi["jam_kerja"] + $validasi["jam_lembur"];
-
-        // Menghitung waktu loading (total waktu kerja - downtime terjadwal)
-        $loadingTime = $machineWorkingTimes - $validasi["planned_downtime"];
-
-        // Menghitung waktu operasi (waktu loading - waktu failure repair - waktu setup adjustment)
-        $operationTime = $loadingTime - $validasi["failure_repair"] - $validasi["setup_adjustment"];
-
-        // Menghitung rasio ketersediaan (selisih waktu loading dengan loading time, diubah ke persen)
-        $availabilityRatio = ($loadingTime - $validasi["loading_time"]) / $loadingTime * 100;
-
         // Menambahkan hasil kalkulasi ke dalam array validasi
-        $validasi["machine_working_times"] = $machineWorkingTimes;
-        $validasi["loading_time"] = $loadingTime;
-        $validasi["operation_time"] = $operationTime;
-        $validasi["availability_ratio"] = $availabilityRatio;
+        $validasi["machine_working_times"] = $request->machine_working_times;
+        $validasi["loading_time"] = $request->loading_time;
+        $validasi["operation_time"] = $request->operation_time;
+        $validasi["availability_ratio"] = $request->availability_ratio;
 
         // Menyimpan data ke database
         $create = Availability::create($validasi);
@@ -67,5 +55,4 @@ class AvailabilityController extends Controller
         Availability::truncate();
         return redirect()->back();
     }
-
 }

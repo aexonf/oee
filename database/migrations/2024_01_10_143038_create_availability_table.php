@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer("failure_repair");
             $table->integer("setup_adjustment");
             $table->integer("operation_time");
-            $table->string("availability_ratio");
+            $table->decimal("availability_ratio", 30, 12);
             $table->timestamps();
         });
     }

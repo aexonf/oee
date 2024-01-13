@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\Back\AvailabilityController;
+use App\Http\Controllers\Back\OeeController;
 use App\Http\Controllers\Back\PerformanceController;
 use App\Http\Controllers\Back\QualityController;
+use App\Models\OverallEquipmentEffectiveness;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('pages.index');
+    return view('pages.index', ["data" => OverallEquipmentEffectiveness::with(["performance", "quality", "availability"])->get()]);
 });
 
 
@@ -53,13 +55,19 @@ Route::prefix('/admin')->group(function() {
 
     Route::controller(PerformanceController::class)->prefix("/performance")->group(function () {
         Route::get("/{id}", 'index')->name("performance");
+        Route::post("/create/{id}", 'create')->name("performance.create");
+        Route::delete("/{id}", 'remove')->name("performance.delete");
     });
 
     Route::controller(QualityController::class)->prefix("/quality")->group(function () {
-        Route::get("/", 'index')->name("quality");
+        Route::get("/{id}", 'index')->name("quality");
+        Route::post("/{id}", 'create')->name("quality.create");
+        Route::delete("/{id}", 'remove')->name("quality.delete");
     });
-    Route::get("/oee", function () {
-        return view('pages.oee.index');
-    })->name("oee");
+
+    Route::controller(OeeController::class)->prefix("/oee")->group(function () {
+        Route::get("/{id}", 'index')->name("oee");
+        Route::post("/create/{qid}/{pid}/{aid}", 'create')->name("oee.create");
+    });
 
 });

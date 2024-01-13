@@ -13,14 +13,15 @@ return new class extends Migration
     {
         Schema::create('performance', function (Blueprint $table) {
             $table->id();
-            $table->integer('cycle_time');
-            $table->integer('jumlah_produksi');
-            $table->integer('target_produksi');
-            $table->integer('actual_cycle_time');
+            $table->string('cycle_time');
+            $table->string('jumlah_produksi');
+            $table->string('target_produksi');
+            $table->string('actual_cycle_time');
             $table->string('performance_efficiency');
+            $table->string('operation_time');
             // relasi
             $table->unsignedBigInteger('availability_id');
-            $table->foreign('availability_id')->references('id')->on('availability');
+            $table->foreign('availability_id')->references('id')->on('availability')->onDelete("CASCADE");
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('performance_efficiency');
+        Schema::dropIfExists('performance');
     }
 };

@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('quality', function (Blueprint $table) {
             $table->id();
-            $table->integer('reject_setup');
-            $table->integer('reject_rework');
+            $table->string('reject_setup');
+            $table->string('reject_rework');
+            $table->string('jumlah_produksi');
             $table->string('rate_of_quality_product');
 
             // relasi
             $table->unsignedBigInteger('performance_id');
-            $table->foreign('performance_id')->references('id')->on('performance');
+            $table->foreign('performance_id')->references('id')->on('performance')->onDelete("CASCADE");
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('quality_product');
+        Schema::dropIfExists('quality');
     }
 };

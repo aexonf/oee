@@ -13,7 +13,7 @@ class QualityController extends Controller
 
     public function index($id)
     {
-        return view('pages.availability.index', ["data" => Quality::find($id)]);
+        return view('pages.quality.index', ["data" => Performance::find($id), "id" => $id, "quality" => Quality::with('performance')->where('performance_id', $id)->first()]);
     }
 
 
@@ -32,11 +32,9 @@ class QualityController extends Controller
             "reject_rework" => "integer",
         ]);
 
-        // Mendapatkan objek Performance berdasarkan ID
-        $performance = Performance::find($id);
-
-        $rateOfQualityProduct = ($performance->jumlah_produksi - $validasi["reject_setup"] - $validasi["reject_rework"]) / $performance->jumlah_produksi * 100;
-        $validasi["rate_of_quality_product"] = $rateOfQualityProduct;
+        $validasi["rate_of_quality_product"] = $request->rate_of_quality_product;
+        $validasi["jumlah_produksi"] = $request->jumlah_produksi;
+        $validasi["performance_id"] = $id;
 
         // Membuat data Quality dengan menggunakan model dan data validasi
         $create = Quality::create($validasi);
@@ -52,10 +50,9 @@ class QualityController extends Controller
         return redirect()->back();
     }
 
-    public function removeAll()
+    public function remove($id)
     {
-        Quality::truncate();
+        Quality::where("performance_id", $id)->first()->delete();
         return redirect()->back();
     }
-
 }

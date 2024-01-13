@@ -13,7 +13,11 @@ class PerformanceController extends Controller
 
     public function index($id)
     {
-        return view('pages.performance.index', ["data" => Performance::find($id)]);
+        return view('pages.performance.index', [
+            "data" => Availability::find($id),
+            "id" => $id,
+            "performance" => Performance::with('availability')->where("availability_id", $id)->first()
+        ]);
     }
 
     /**
@@ -25,30 +29,18 @@ class PerformanceController extends Controller
      */
     public function create(Request $request, $id)
     {
-        // Validasi input data
         $validasi = $request->validate([
-            "cycle_time" => "integer",
-            "jumlah_produksi" => "integer",
-            "target_produksi" => "integer",
-            "actual_cycle_time" => "integer",
+            "cycle_time" => "numeric",
+            "jumlah_produksi" => "numeric",
+            "target_produksi" => "numeric",
+            "actual_cycle_time" => "numeric",
+            "operation_time" => "numeric"
         ]);
 
-        // Mendapatkan objek Availability berdasarkan ID
-        $availability = Availability::find($id);
-
-        // Menghitung target produksi berdasarkan rumus yang diberikan
-        $targetProduksi = $availability->operation_time / $validasi["cycle_time"];
-
-        // Menghitung actual cycle time berdasarkan rumus yang diberikan
-        $actualCycleTime = $availability->operation_time / $validasi["jumlah_produksi"];
-
-        // Menghitung performance efficiency berdasarkan rumus yang diberikan
-        $performance = $validasi["jumlah_produksi"] * $validasi["cycle_time"] / $availability->operation_time * 100;
-
-        // Menambahkan hasil kalkulasi ke dalam array validasi
-        $validasi["target_produksi"] = $targetProduksi;
-        $validasi["actual_cycle_time"] = $actualCycleTime;
-        $validasi["performance_efficiency"] = $performance;
+        $validasi["target_produksi"] = $request->target_produksi;
+        $validasi["actual_cycle_time"] = $request->actual_cycle_time;
+        $validasi["performance_efficiency"] = $request->performance_efficiency;
+        $validasi["availability_id"] = $id;
 
         // Membuat data Performance dengan menggunakan model dan data validasi
         $create = Performance::create($validasi);
@@ -64,9 +56,9 @@ class PerformanceController extends Controller
         return redirect()->back();
     }
 
-    public function removeAll()
+    public function remove($id)
     {
-        Performance::truncate();
+        Performance::where("availability_id", $id)->first()->delete();
         return redirect()->back();
     }
 }

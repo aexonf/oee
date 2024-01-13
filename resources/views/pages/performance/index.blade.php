@@ -30,8 +30,9 @@
             <div class="section-body">
                 <div class="card">
                     <div class="card-body">
-                        <form class="needs-validation" method="get" action="#">
+                        <form class="needs-validation" method="POST" action="{{ route('performance.create', $id) }}">
                             @csrf
+                            @method('POST')
                             <div class="form-group mb-2 row">
 
                                 <label class="col-2 col-form-label d-flex justify-content-center align-items-center mb-4"
@@ -47,80 +48,150 @@
 
                                 <label class="col-2 col-form-label d-flex justify-content-center align-items-center mb-4"
                                     for="target_produksi">Jumlah Target Produksi <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control col-3 mb-4" name="target_produksi"
-                                    id="target_produksi" disabled>
+                                <input type="text" class="form-control col-3 mb-4" readonly name="target_produksi"
+                                    id="target_produksi">
                                 <p class="col-1 d-flex justify-content-center align-items-center mb-4">unit</p>
 
                                 <label class="col-2 col-form-label d-flex justify-content-center align-items-center mb-4"
                                     for="actual_cycle_time">Actual Cycle time <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control col-3 mb-4" name="actual_cycle_time"
-                                    id="actual_cycle_time" disabled>
+                                <input type="text" class="form-control col-3 mb-4 " readonly name="actual_cycle_time"
+                                    id="actual_cycle_time">
                                 <p class="col-1 d-flex justify-content-center align-items-center mb-4">menit / unit</p>
 
                                 <label class="col-2 col-form-label d-flex justify-content-center align-items-center mb-4"
-                                    for="jam_kerja">Operation Time <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control col-3 mb-4" name="jam_kerja" id="jam_kerja"
-                                    disabled>
+                                    for="operation_time">Operation Time <span class="text-danger">*</span></label>
+                                <input value="{{ $data->operation_time }}" type="text" class="form-control col-3 mb-4 "
+                                    name="operation_time" id="operation_time" readonly>
                                 <p class="col-1 d-flex justify-content-center align-items-center mb-4">menit</p>
 
                                 <h5 class="col-12 mb-3">Performance</h5>
                                 <label class="col-2 col-form-label d-flex justify-content-center align-items-center mb-4"
-                                    for="jam_kerja">Performance Efficiency</label>
-                                <input type="text" class="form-control col-3 mb-4" name="jam_kerja" id="jam_kerja"
-                                    disabled>
-                                <p class="col-1 d-flex justify-content-center align-items-center mb-4">menit</p>
+                                    for="performance_efficiency">Performance Efficiency</label>
+                                <input type="text" class="form-control col-3 mb-4 " name="performance_efficiency"
+                                    id="performance_efficiency" readonly>
+                                <p class="col-1 d-flex justify-content-center align-items-center mb-4">%</p>
+                                <h3 class="col-12 d-flex justify-content-start align-items-center mb-4 text-danger">
+                                    * Target presentase availability ratio = 95%
+                                </h3>
+                                <h3 class="col-12" id="performance_efficiency_val">
+                                </h3>
+
 
                             </div>
                             <div class="mt-5 d-flex justify-content-between">
-                                <div>
-                                    <button type="submit" class="btn btn-primary ml-2" id="button-hitung">Hitung</button>
-                                    <button type="submit" class="btn btn-danger ml-2 disabled" id="button-reset"
-                                        disabled>Reset</button>
+                                <div class="d-flex justify-content-end">
+                                    <button type="button" class="btn btn-primary ml-2" id="button-hitung"
+                                        onclick="hitung()">Hitung</button>
+                                    <a href="{{ route('performance', $id) }}" class="btn btn-danger ml-2"
+                                        id="button-reset">Reset</a>
                                 </div>
-                                <div>
-                                    <button type="submit" class="btn btn-primary ml-2 disabled" id="button-simpan"
+                                <div class="d-flex justify-content-end">
+                                    <button type="submit" class="btn btn-primary ml-2" id="button-simpan"
                                         disabled>Simpan</button>
-                                    <button type="submit" class="btn btn-danger ml-2 disabled" id="button-hapus-semua"
-                                        disabled>Hapus Semua</button>
                                 </div>
-                            </div>
-                            {{-- card --}}
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4>Table</h4>
-                                </div>
-                                <div class="card-body p-0">
-                                    <div class="table-responsive overflow-x-auto">
-                                        <table class="table table-striped table-md">
-                                            <tbody>
-                                                <tr>
-                                                    <th>Jam Kerja</th>
-                                                    <th>Jam Lembur</th>
-                                                    <th>Planned Downtime</th>
-                                                    <th>Loading Time</th>
-                                                    <th>Failure & Repair</th>
-                                                    <th>Setup & Adjustment</th>
-                                                    <th>Operation Time</th>
-                                                    <th>Availality Ratio</th>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
                         </form>
-                        <div class="d-flex justify-content-end my-5">
-                            {{-- dapetin id nya --}}
-                            <a href='{{ route('availability', ['id' => 1]) }}' class="btn btn-primary ml-2"
-                                id="button-simpan">Kembali</a>
-                            <a href="{{ route('quality', ['id' => 1]) }}" class="btn btn-success ml-2"
-                                id="button-lanjut">Lanjut</a>
+                    </div>
+                </div>
+                {{-- card --}}
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Table</h4>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive overflow-x-auto">
+                            <table class="table table-striped table-md">
+                                <tbody>
+                                    <tr>
+                                        <th>Operation Time</th>
+                                        <th>Jumlah Produksi</th>
+                                        <th>Target Produksi</th>
+                                        <th>Actual Cycle Time</th>
+                                        <th>Ideal Cycle Time</th>
+                                        <th>Performance Efficiency</th>
+                                        <th>Action</th>
+                                    </tr>
+
+                                    <tr>
+                                        @if ($performance)
+                                            <td>{{ $data->operation_time }}</td>
+                                            <td>{{ $performance->jumlah_produksi }}</td>
+                                            <td>{{ $performance->target_produksi }}</td>
+                                            <td>{{ $performance->actual_cycle_time }}</td>
+                                            <td>{{ $performance->cycle_time }}</td>
+                                            <td>{{ $performance->performance_efficiency }}</td>
+                                            <td class="d-flex">
+                                                <a href="{{ route('quality', $performance->id) }}"
+                                                    class="btn btn-success ml-2" id="button-lanjut">Lanjut</a>
+                                                <form action="{{ route('performance.delete', $performance->id) }}" method="post">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger ml-2"
+                                                        id="button-hapus-semua">Hapus</button>
+                                                </form>
+                                            </td>
+                                        @endif
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
+                <div class="d-flex justify-content-end my-5 p-5">
+                    {{-- dapetin id nya --}}
+                    <a href='{{ route('availability') }}' class="btn btn-primary ml-2" id="button-simpan">Kembali</a>
+                </div>
             </div>
-        </section>
     </div>
+    </div>
+    </section>
+    </div>
+
+    <script>
+        function hitung() {
+            // Get input values
+            const idealCycleTime = parseFloat(document.getElementById('cycle_time').value) || 0;
+            const jumlahProduksi = parseInt(document.getElementById('jumlah_produksi').value) || 0;
+
+            // Calculate target produksi
+            const targetProduksi = jumlahProduksi * idealCycleTime;
+            document.getElementById('target_produksi').value = targetProduksi.toFixed(10);
+
+            // Calculate actual cycle time
+            const actualCycleTime = jumlahProduksi / targetProduksi;
+            document.getElementById('actual_cycle_time').value = actualCycleTime.toFixed(10);
+
+            const operationTime = parseFloat(document.getElementById('operation_time').value) || 0;
+
+            // Calculate performance efficiency
+            const performanceEfficiency = (jumlahProduksi - idealCycleTime) / operationTime * 100;
+            document.getElementById('performance_efficiency').value = performanceEfficiency.toFixed(10);
+
+
+            const badgeContainer = document.getElementById('performance_efficiency_val');
+
+            // Clear previous badges
+            badgeContainer.innerHTML = '';
+
+            if (performanceEfficiency >= 95) {
+                const badgeAman = document.createElement('h3');
+                badgeAman.className = 'badge badge-success';
+                badgeAman.innerText =
+                    'Pengguna waktu yang tersedia untuk kegiatan operasi mesin alat sudah mencukupi (Tinggi)';
+
+                badgeContainer.appendChild(badgeAman);
+            } else {
+                const badgeKurang = document.createElement('h3');
+                badgeKurang.className = 'badge badge-danger';
+                badgeKurang.innerText =
+                    'Pengguna waktu yang tersedia untuk kegiatan operasi mesin alat belum mencukupi (Kurang)';
+
+                badgeContainer.appendChild(badgeKurang);
+            }
+            // Enable the buttons
+            document.getElementById('button-simpan').removeAttribute('disabled');
+        }
+    </script>
+
 @endsection
 
 @push('scripts')

@@ -26,18 +26,20 @@
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">col 1</th>
-                                    <th scope="col">col 2</th>
-                                    <th scope="col">col 3</th>
+                                    <th scope="col">Availability Ratio</th>
+                                    <th scope="col">Performance Efficienc</th>
+                                    <th scope="col">Rate Of Quality Product</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($data as $index => $item)
                                 <tr>
-                                    <th scope="row">1</th>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td>4</td>
+                                    <th scope="row">{{$index + 1}}</th>
+                                    <td>{{$item->availability->availability_ratio}}</td>
+                                    <td>{{$item->performance->performance_efficiency}}</td>
+                                    <td>{{$item->quality->rate_of_quality_product}}</td>
                                 </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
