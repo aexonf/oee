@@ -18,37 +18,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('pages.index', ["data" => OverallEquipmentEffectiveness::with(["performance", "quality", "availability"])->get()]);
-});
 
 
-
-Route::prefix('/admin')->group(function() {
-
+Route::middleware('auth')->prefix('/admin')->group(function() {
+    Route::get('/', function () {
+        return view('pages.index', ["data" => OverallEquipmentEffectiveness::with(["performance", "quality", "availability"])->get()]);
+    });
 
     Route::controller(AvailabilityController::class)->prefix("/availability")->group(function () {
-// <<<<<<< HEAD
-//         Route::get("/", 'index');
-//         Route::post("/", 'create');
-//         Route::delete("/", 'removeAll');
-//     });
-
-//     Route::controller(PerformanceController::class)->prefix("/performance")->group(function () {
-//         Route::get("/{id}", 'index');
-//         Route::post("/", 'create');
-//         Route::delete("/", 'removeAll');
-//     });
-
-//     Route::controller(QualityController::class)->prefix("/quality")->group(function () {
-
-//         Route::get("/{id}", 'index');
-//         Route::post("/", 'create');
-//         Route::delete("/", 'removeAll');
-
-//     });
-
-// =======
         Route::get("/", 'index')->name("availability");
         Route::post("/", 'create')->name("availability.create");
     });
@@ -71,3 +48,4 @@ Route::prefix('/admin')->group(function() {
     });
 
 });
+require __DIR__.'/auth.php';
