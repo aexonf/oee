@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::middleware('auth')->prefix('/admin')->group(function() {
+Route::middleware('auth')->prefix('/')->group(function() {
     Route::get('/', function () {
         return view('pages.index', ["data" => OverallEquipmentEffectiveness::with(["performance", "quality", "availability"])->get()]);
     });
