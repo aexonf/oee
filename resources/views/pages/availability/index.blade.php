@@ -164,6 +164,13 @@
                                                         <td>
                                                             <a href="{{ route('performance', $availabilityData->id) }}"
                                                                 class="btn btn-success ml-2" id="button-lanjut">Lanjut</a>
+                                                                <form action="{{ route('availability.delete', $availabilityData->id) }}"
+                                                                    method="post">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit" class="btn btn-danger ml-2"
+                                                                        id="button-hapus-semua">Hapus</button>
+                                                                </form>
                                                         </td>
                                                     </tr>
                                                 @endif

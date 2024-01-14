@@ -30,17 +30,18 @@
             <div class="section-body">
                 <div class="card">
                     <div class="card-body">
-                        <form class="needs-validation" method="POST" action="{{ route('oee.create', ['qid' => $data->id, 'pid' => $data->performance->id, 'aid' => $data->performance->availability->id]) }}">
+                        <form class="needs-validation" method="POST"
+                            action="{{ route('oee.create', ['qid' => $data->id, 'pid' => $data->performance->id, 'aid' => $data->performance->availability->id]) }}">
                             @csrf
-                            @method("POST")
+                            @method('POST')
                             <div class="form-group mb-2 row">
                                 <h5 class="col-12 mb-3">Data OEE</h5>
 
                                 <label class="col-2 col-form-label d-flex justify-content-center align-items-center mb-4"
                                     for="availability_ratio">Availability Ratio</label>
                                 <input type="text" class="form-control col-3 mb-4"
-                                    value="{{ $data->performance->availability->availability_ratio }}" name="availability_ratio"
-                                    id="availability_ratio" disabled>
+                                    value="{{ $data->performance->availability->availability_ratio }}"
+                                    name="availability_ratio" id="availability_ratio" disabled>
                                 <p class="col-1 d-flex justify-content-center align-items-center mb-4">(%)</p>
 
                                 <label class="col-2 col-form-label d-flex justify-content-center align-items-center mb-4"
@@ -76,12 +77,8 @@
                         </form>
                         <div>
                             <button type="button" class="btn btn-primary ml-2" id="button-hitung">Hitung</button>
-                            <button type="submit" class="btn btn-danger ml-2 disabled" id="button-reset"
-                                disabled>Reset</button>
                         </div>
 
-                        <button type="submit" class="btn btn-danger ml-2" id="button-hapus-semua" disabled>Hapus
-                            Semua</button>
                     </div>
                 </div>
                 <div class="card">
@@ -106,7 +103,6 @@
                 <div class="d-flex justify-content-end my-5">
                     <a href="{{ route('availability') }}" class="btn btn-primary ml-2" id="button-simpan">Mulai
                         dari awal</a>
-                    <a href="/" class="btn btn-success ml-2" id="button-lanjut">Selesai</a>
                 </div>
             </div>
     </div>

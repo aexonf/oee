@@ -50,9 +50,9 @@ class AvailabilityController extends Controller
         }
     }
 
-    public function removeAll()
+    public function delete($id)
     {
-        Availability::truncate();
+        Availability::find($id)->delete();
         return redirect()->back();
     }
 }

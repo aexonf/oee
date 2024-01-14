@@ -27,8 +27,9 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Availability Ratio</th>
-                                    <th scope="col">Performance Efficienc</th>
+                                    <th scope="col">Performance Efficiency</th>
                                     <th scope="col">Rate Of Quality Product</th>
+                                    <th scope="col">Overall Equipment Effectiveness</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -38,6 +39,7 @@
                                     <td>{{$item->availability->availability_ratio}}</td>
                                     <td>{{$item->performance->performance_efficiency}}</td>
                                     <td>{{$item->quality->rate_of_quality_product}}</td>
+                                    <td>{{ $item->availability->availability_ratio * $item->performance->performance_efficiency * $item->quality->rate_of_quality_product }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>
