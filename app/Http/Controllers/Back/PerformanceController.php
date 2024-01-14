@@ -16,7 +16,7 @@ class PerformanceController extends Controller
         return view('pages.performance.index', [
             "data" => Availability::find($id),
             "id" => $id,
-            "performance" => Performance::with('availability')->where("availability_id", $id)->first()
+            // "performance" => Performance::with('availability')->where("availability_id", $id)->first()
         ]);
     }
 
@@ -48,6 +48,7 @@ class PerformanceController extends Controller
         // Memberikan feedback menggunakan flash message
         if ($create) {
             Session::flash("success", "Berhasil membuat data performance");
+            Session::flash("performance", $create);
         } else {
             Session::flash("error", "Gagal membuat data performance");
         }

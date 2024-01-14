@@ -112,17 +112,20 @@
                                     </tr>
 
                                     <tr>
-                                        @if ($performance)
+                                        @if (session('success') && session('performance'))
+                                        <?php $availabilityData = json_decode(session('performance')); ?>
+                                            <td>1</td>
                                             <td>{{ $data->operation_time }}</td>
-                                            <td>{{ $performance->jumlah_produksi }}</td>
-                                            <td>{{ $performance->target_produksi }}</td>
-                                            <td>{{ $performance->actual_cycle_time }}</td>
-                                            <td>{{ $performance->cycle_time }}</td>
-                                            <td>{{ $performance->performance_efficiency }}</td>
+                                            <td>{{ $availabilityData->jumlah_produksi }}</td>
+                                            <td>{{ $availabilityData->target_produksi }}</td>
+                                            <td>{{ $availabilityData->actual_cycle_time }}</td>
+                                            <td>{{ $availabilityData->cycle_time }}</td>
+                                            <td>{{ $availabilityData->performance_efficiency }}</td>
                                             <td class="d-flex">
-                                                <a href="{{ route('quality', $performance->id) }}"
+                                                <a href="{{ route('quality', $availabilityData->id) }}"
                                                     class="btn btn-success ml-2" id="button-lanjut">Lanjut</a>
-                                                <form action="{{ route('performance.delete', $performance->id) }}" method="post">
+                                                <form action="{{ route('performance.delete', $availabilityData->id) }}"
+                                                    method="post">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger ml-2"
@@ -152,20 +155,44 @@
             const idealCycleTime = parseFloat(document.getElementById('cycle_time').value) || 0;
             const jumlahProduksi = parseInt(document.getElementById('jumlah_produksi').value) || 0;
 
-            // Calculate target produksi
-            const targetProduksi = jumlahProduksi * idealCycleTime;
-            document.getElementById('target_produksi').value = targetProduksi.toFixed(10);
-
             // Calculate actual cycle time
-            const actualCycleTime = jumlahProduksi / targetProduksi;
-            document.getElementById('actual_cycle_time').value = actualCycleTime.toFixed(10);
-
             const operationTime = parseFloat(document.getElementById('operation_time').value) || 0;
 
-            // Calculate performance efficiency
-            const performanceEfficiency = (jumlahProduksi - idealCycleTime) / operationTime * 100;
-            document.getElementById('performance_efficiency').value = performanceEfficiency.toFixed(10);
+            // Check if idealCycleTime is zero
+            if (idealCycleTime === 0) {
+                // Handle the case where idealCycleTime is zero (for example, set targetProduksi to a default value)
+                document.getElementById('target_produksi').value = 0;
+                document.getElementById('actual_cycle_time').value = 0;
+                document.getElementById('performance_efficiency').value = 0;
 
+                // Display an error message or handle it as needed
+                console.error("Error: idealCycleTime should not be zero.");
+                return;
+            }
+
+            // Calculate target produksi
+            const targetProduksi = operationTime / idealCycleTime;
+
+            // Handle the case where targetProduksi is Infinity
+            if (!isFinite(targetProduksi)) {
+                // Set targetProduksi to a default value or display an error message
+                document.getElementById('target_produksi').value = 0;
+                document.getElementById('actual_cycle_time').value = 0;
+                document.getElementById('performance_efficiency').value = 0;
+
+                // Display an error message or handle it as needed
+                console.error("Error: Target Produksi is Infinity.");
+                return;
+            }
+
+            document.getElementById('target_produksi').value = targetProduksi;
+
+            const actualCycleTime = operationTime / jumlahProduksi;
+            document.getElementById('actual_cycle_time').value = actualCycleTime;
+
+            // Calculate performance efficiency
+            const performanceEfficiency = (jumlahProduksi * idealCycleTime) / operationTime * 100;
+            document.getElementById('performance_efficiency').value = performanceEfficiency;
 
             const badgeContainer = document.getElementById('performance_efficiency_val');
 
