@@ -13,7 +13,7 @@ class QualityController extends Controller
 
     public function index($id)
     {
-        return view('pages.quality.index', ["data" => Performance::find($id), "id" => $id, "quality" => Quality::with('performance')->where('performance_id', $id)->first()]);
+        return view('pages.quality.index', ["data" => Performance::find($id), "id" => $id]);
     }
 
 
@@ -42,6 +42,7 @@ class QualityController extends Controller
         // Memberikan feedback menggunakan flash message
         if ($create) {
             Session::flash("success", "Berhasil membuat data quality");
+            Session::flash("quality", $create);
         } else {
             Session::flash("error", "Gagal membuat data quality");
         }

@@ -89,7 +89,8 @@
                                         <th>Rate of Quality</th>
                                         <th>Action</th>
                                     </tr>
-                                    @if ($quality)
+                                    @if (session('success') && session('quality'))
+                                    <?php $quality = json_decode(session('quality')); ?>
                                         <tr>
                                             <td>
                                                 {{ $quality->jumlah_produksi }}
@@ -140,7 +141,8 @@
             const jumlahProduksi = parseInt(document.getElementById('jumlah_produksi').value) || 0;
 
             // Calculate rate of quality product
-            const rateOfQualityProduct = ((jumlahProduksi - rejectSetup - rejectRework) / jumlahProduksi) * 100;
+            const rateOfQualityProduct = (jumlahProduksi - rejectSetup - rejectRework) / jumlahProduksi * 100;
+            console.log(rateOfQualityProduct, rejectRework, rejectSetup, jumlahProduksi)
             document.getElementById('rate_of_quality_product').value = rateOfQualityProduct.toFixed(5);
 
 
@@ -149,7 +151,7 @@
             // Clear previous badges
             badgeContainer.innerHTML = '';
 
-            if (rateOfQualityProduct >= 95) {
+            if (rateOfQualityProduct >= 99) {
                 const badgeAman = document.createElement('h3');
                 badgeAman.className = 'badge badge-success';
                 badgeAman.innerText =
