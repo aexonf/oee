@@ -1,6 +1,6 @@
 @extends('components.elements.app')
 
-@section('title', 'OEE - Availability Ratio')
+@section('title', 'OE - Availability')
 
 @push('style')
     <!-- CSS Libraries -->
@@ -29,9 +29,6 @@
 
             <div class="section-body">
                 <div class="card">
-                    <div class="card-header">
-                        <h4>Total</h4>
-                    </div>
                     <div class="card-body">
                         <form class="needs-validation" method="POST" action="{{ route('availability.create') }}">
                             @csrf
@@ -78,12 +75,14 @@
                                     required>
                                 <p class="col-1 d-flex justify-content-center align-items-center">menit</p>
 
-                                <label
-                                    class="mt-2 col-3 col-form-label d-flex justify-content-start align-items-center">Setup
-                                    and Adjustment <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control col-2 mt-3" id="setup_adjustment"
+                                <label class="mt-2 col-2 col-form-label d-flex justify-content-center align-items-center"
+                                    for="setup_adjustment">
+                                    Setup and Adjustment
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control col-3 mt-3" id="setup_adjustment"
                                     name="setup_adjustment" required>
-                                <p class="col-1 d-flex justify-content-center align-items-center">menit</p>
+                                <p class="col-1 d-flex justify-content-center align-items-end">menit</p>
 
                                 <label
                                     class="mt-2 col-2 col-form-label d-flex justify-content-center align-items-center"><b>
@@ -94,6 +93,7 @@
                                     name="operation_time" readonly>
                                 <p class="col-1 d-flex justify-content-center align-items-end">menit</p>
 
+                                <h4 class="col-12 my-4">Total</h4>
                                 <label
                                     class="mt-2 col-2 col-form-label d-flex justify-content-center align-items-center text-decoration-underline"><u>
                                         Availability
@@ -127,7 +127,6 @@
                                     </form>
                                 </div>
                             </div>
-                            {{-- card --}}
                             <div class="card">
                                 <div class="card-header">
                                     <h4>Table</h4>
@@ -161,16 +160,17 @@
                                                         <td>{{ $availabilityData->setup_adjustment }}</td>
                                                         <td>{{ $availabilityData->operation_time }}</td>
                                                         <td>{{ $availabilityData->availability_ratio }}</td>
-                                                        <td>
+                                                        <td class="d-flex">
                                                             <a href="{{ route('performance', $availabilityData->id) }}"
                                                                 class="btn btn-success ml-2" id="button-lanjut">Lanjut</a>
-                                                                <form action="{{ route('availability.delete', $availabilityData->id) }}"
-                                                                    method="post">
-                                                                    @csrf
-                                                                    @method('DELETE')
-                                                                    <button type="submit" class="btn btn-danger ml-2"
-                                                                        id="button-hapus-semua">Hapus</button>
-                                                                </form>
+                                                            <form
+                                                                action="{{ route('availability.delete', $availabilityData->id) }}"
+                                                                method="post">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="btn btn-danger ml-2"
+                                                                    id="button-hapus-semua">Hapus</button>
+                                                            </form>
                                                         </td>
                                                     </tr>
                                                 @endif
@@ -180,10 +180,6 @@
                                 </div>
                             </div>
                         </form>
-                        {{-- <div class="d-flex justify-content-end my-5">
-                            <a href="{{ route('performance', ['id' => 1]) }}" class="btn btn-success ml-2"
-                                id="button-lanjut">Lanjut</a>
-                        </div> --}}
                     </div>
                 </div>
             </div>

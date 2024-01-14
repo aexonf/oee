@@ -11,7 +11,7 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Overall Equipment Effectiveness (OEE)</h1>
+                <h1>OE (Overall Equipment Effectiveness)</h1>
             </div>
 
             @if (session('success') || session('error'))
@@ -58,7 +58,7 @@
                                     id="rate_of_quality_product" disabled>
                                 <p class="col-1 d-flex justify-content-center align-items-center mb-4">(%)</p>
 
-                                <h5 class="col-12 mb-3">OEE</h5>
+                                <h4 class="col-12 mb-3">Total</h4>
 
                                 <input type="text" class="form-control col-3 mb-4" name="oee" id="oee"
                                     disabled>
@@ -67,17 +67,19 @@
                                 <h4 class="col-12 d-flex justify-content-start align-items-center mb-4 text-danger">
                                     * Target presentase rate of quality = 85%
                                 </h4>
+                                <h3 class="col-12" id="oee-badge">
+                                </h3>
                             </div>
 
 
-                            <div class="mt-5 d-flex justify-content-between">
+                            <div class="mt-5 ">
                                 <div>
                                     <button type="submit" class="btn btn-primary ml-2" id="button-simpan"
                                         disabled>Simpan</button>
+                                    <button type="button" class="btn btn-primary ml-2" id="button-hitung">Hitung</button>
+                                </div>
+                            </div>
                         </form>
-                        <div>
-                            <button type="button" class="btn btn-primary ml-2" id="button-hitung">Hitung</button>
-                        </div>
 
                     </div>
                 </div>
@@ -132,6 +134,27 @@
                 // Update the OEE input field
                 inputOee.value = oee;
                 document.getElementById('button-simpan').removeAttribute('disabled');
+
+                const badgeContainer = document.getElementById('oee-badge');
+
+                // Clear previous badges
+                badgeContainer.innerHTML = '';
+
+                if (oee >= 90) {
+                    const badgeAman = document.createElement('h3');
+                    badgeAman.className = 'badge badge-success';
+                    badgeAman.innerText =
+                        'Kemampuan alat / mesin dalam menghasilkan produk sesuai standar sudah cukup baik (Tinggi)';
+
+                    badgeContainer.appendChild(badgeAman);
+                } else {
+                    const badgeKurang = document.createElement('h3');
+                    badgeKurang.className = 'badge badge-danger';
+                    badgeKurang.innerText =
+                        'Kemampuan alat / mesin dalam menghasilkan produk sesuai standar masih perlu diperbaiki (Rendah)';
+
+                    badgeContainer.appendChild(badgeKurang);
+                }
             });
         });
     </script>
