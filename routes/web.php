@@ -28,6 +28,7 @@ Route::middleware('auth')->prefix('/admin')->group(function() {
     Route::controller(AvailabilityController::class)->prefix("/availability")->group(function () {
         Route::get("/", 'index')->name("availability");
         Route::post("/", 'create')->name("availability.create");
+        Route::delete("/{id}", 'delete')->name("availability.delete");
     });
 
     Route::controller(PerformanceController::class)->prefix("/performance")->group(function () {
