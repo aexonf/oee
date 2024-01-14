@@ -30,7 +30,7 @@
             <div class="section-body">
                 <div class="card">
                     <div class="card-body">
-                        <form class="needs-validation" method="POST" action="{{ route('oee.create', ['qid' => $quality->id, 'pid' => $performance->id, 'aid' => $availability->id]) }}">
+                        <form class="needs-validation" method="POST" action="{{ route('oee.create', ['qid' => $data->id, 'pid' => $data->performance->id, 'aid' => $data->performance->availability->id]) }}">
                             @csrf
                             @method("POST")
                             <div class="form-group mb-2 row">
@@ -39,21 +39,21 @@
                                 <label class="col-2 col-form-label d-flex justify-content-center align-items-center mb-4"
                                     for="availability_ratio">Availability Ratio</label>
                                 <input type="text" class="form-control col-3 mb-4"
-                                    value="{{ $availability->availability_ratio }}" name="availability_ratio"
+                                    value="{{ $data->performance->availability->availability_ratio }}" name="availability_ratio"
                                     id="availability_ratio" disabled>
                                 <p class="col-1 d-flex justify-content-center align-items-center mb-4">(%)</p>
 
                                 <label class="col-2 col-form-label d-flex justify-content-center align-items-center mb-4"
                                     for="performance_efficiency">Performance Efficiency</label>
                                 <input type="text" class="form-control col-3 mb-4"
-                                    value="{{ $performance->performance_efficiency }}" name="performance_efficiency"
+                                    value="{{ $data->performance->performance_efficiency }}" name="performance_efficiency"
                                     id="performance_efficiency" disabled>
                                 <p class="col-1 d-flex justify-content-center align-items-center mb-4">(%)</p>
 
                                 <label class="col-2 col-form-label d-flex justify-content-center align-items-center mb-4"
                                     for="rate_of_quality_product">Rate of Quality Product</label>
                                 <input type="text" class="form-control col-3 mb-4"
-                                    value="{{ $quality->rate_of_quality_product }}" name="rate_of_quality_product"
+                                    value="{{ $data->rate_of_quality_product }}" name="rate_of_quality_product"
                                     id="rate_of_quality_product" disabled>
                                 <p class="col-1 d-flex justify-content-center align-items-center mb-4">(%)</p>
 
@@ -67,6 +67,7 @@
                                     * Target presentase rate of quality = 85%
                                 </h4>
                             </div>
+
 
                             <div class="mt-5 d-flex justify-content-between">
                                 <div>
@@ -130,7 +131,7 @@
                 const rateOfQualityProduct = parseFloat(inputRateOfQualityProduct.value) || 0;
 
                 // Calculate OEE
-                const oee = (availabilityRatio * performanceEfficiency * rateOfQualityProduct).toFixed(2);
+                const oee = availabilityRatio * performanceEfficiency * rateOfQualityProduct;
 
                 // Update the OEE input field
                 inputOee.value = oee;

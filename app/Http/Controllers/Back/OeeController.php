@@ -13,14 +13,10 @@ use Illuminate\Support\Facades\Session;
 class OeeController extends Controller
 {
 
-    public function index(Request $request, $id){
-        $quality = Quality::find($id);
-        $performance = Performance::where("availability_id", $quality->performance_id)->first();
-        $availability = Availability::find($performance->availability_id);
+    public function index($id){
+        $data = Quality::with(["performance.availability", "performance.quality"])->where("id", $id)->first();
         return view("pages.oee.index", [
-            "quality" => $quality,
-            "performance" => $performance,
-            "availability" => $availability,
+            "data" => $data,
         ]);
     }
 

@@ -195,12 +195,11 @@
             const loadingTime = machineWorkingTimes - plannedDowntime;
             const operationTime = (loadingTime - failureRepair) - setupAdjustment;
             const availabilityRatio = operationTime / loadingTime * 100;
-            console.log(machineWorkingTimes, operationTime, availabilityRatio, loadingTime)
 
             document.getElementById('machine_working_times').value = machineWorkingTimes;
             document.getElementById('loading_time').value = loadingTime;
             document.getElementById('operation_time').value = operationTime;
-            document.getElementById('availability_ratio').value = availabilityRatio.toFixed(2);
+            document.getElementById('availability_ratio').value = availabilityRatio;
 
             const badgeContainer = document.getElementById('availiability_ratio');
 
