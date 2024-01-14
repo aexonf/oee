@@ -10,7 +10,7 @@ class AvailabilityController extends Controller
 {
     public function index()
     {
-        return view('pages.availability.index', ["data" => Availability::all()]);
+        return view('pages.availability.index');
     }
 
     /**
@@ -44,7 +44,7 @@ class AvailabilityController extends Controller
 
         // Memberikan feedback menggunakan flash message
         if ($create) {
-            return redirect()->back()->with("success", "Berhasil membuat availability");
+            return redirect()->back()->with(["success" => "Berhasil membuat availability", "data" => $create]);
         } else {
             return redirect()->back()->with("error", "Gagal membuat availability");
         }

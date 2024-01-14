@@ -148,23 +148,25 @@
                                                     <th>Availality Ratio</th>
                                                     <th>Action</th>
                                                 </tr>
-                                                @foreach ($data as $index => $item)
+
+                                                @if (session('success') && session('data'))
+                                                    <?php $availabilityData = json_decode(session('data')); ?>
                                                     <tr>
-                                                        <td>{{ $index + 1 }}</td>
-                                                        <td>{{ $item->jam_kerja }}</td>
-                                                        <td>{{ $item->jam_lembur }}</td>
-                                                        <td>{{ $item->planned_downtime }}</td>
-                                                        <td>{{ $item->loading_time }}</td>
-                                                        <td>{{ $item->failure_repair }}</td>
-                                                        <td>{{ $item->setup_adjustment }}</td>
-                                                        <td>{{ $item->operation_time }}</td>
-                                                        <td>{{ $item->availability_ratio }}</td>
+                                                        <td>1</td>
+                                                        <td>{{ $availabilityData->jam_kerja }}</td>
+                                                        <td>{{ $availabilityData->jam_lembur }}</td>
+                                                        <td>{{ $availabilityData->planned_downtime }}</td>
+                                                        <td>{{ $availabilityData->loading_time }}</td>
+                                                        <td>{{ $availabilityData->failure_repair }}</td>
+                                                        <td>{{ $availabilityData->setup_adjustment }}</td>
+                                                        <td>{{ $availabilityData->operation_time }}</td>
+                                                        <td>{{ $availabilityData->availability_ratio }}</td>
                                                         <td>
-                                                            <a href="{{ route('performance', $item->id) }}"
+                                                            <a href="{{ route('performance', $availabilityData->id) }}"
                                                                 class="btn btn-success ml-2" id="button-lanjut">Lanjut</a>
                                                         </td>
                                                     </tr>
-                                                @endforeach
+                                                @endif
                                             </tbody>
                                         </table>
                                     </div>
@@ -192,8 +194,8 @@
             const machineWorkingTimes = jamKerja + jamLembur;
             const loadingTime = machineWorkingTimes - plannedDowntime;
             const operationTime = (loadingTime - failureRepair) - setupAdjustment;
-            const availabilityRatio = (loadingTime - plannedDowntime) / loadingTime * 100;
-            console.log(machineWorkingTimes, operationTime, availabilityRatio)
+            const availabilityRatio = operationTime / loadingTime * 100;
+            console.log(machineWorkingTimes, operationTime, availabilityRatio, loadingTime)
 
             document.getElementById('machine_working_times').value = machineWorkingTimes;
             document.getElementById('loading_time').value = loadingTime;
@@ -208,13 +210,15 @@
             if (availabilityRatio >= 90) {
                 const badgeAman = document.createElement('h3');
                 badgeAman.className = 'badge badge-success';
-                badgeAman.innerText = 'Pengguna waktu yang tersedia untuk kegiatan operasi mesin alat sudah mencukupi (Tinggi)';
+                badgeAman.innerText =
+                    'Pengguna waktu yang tersedia untuk kegiatan operasi mesin alat sudah mencukupi (Tinggi)';
 
                 badgeContainer.appendChild(badgeAman);
             } else {
                 const badgeKurang = document.createElement('h3');
                 badgeKurang.className = 'badge badge-danger';
-                badgeKurang.innerText = 'Pengguna waktu yang tersedia untuk kegiatan operasi mesin alat belum mencukupi (Kurang)';
+                badgeKurang.innerText =
+                    'Pengguna waktu yang tersedia untuk kegiatan operasi mesin alat belum mencukupi (Kurang)';
 
                 badgeContainer.appendChild(badgeKurang);
             }
