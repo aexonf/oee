@@ -20,10 +20,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::middleware('auth')->prefix('/')->group(function() {
-    Route::get('/', function () {
-        return view('pages.index', ["data" => OverallEquipmentEffectiveness::with(["performance", "quality", "availability"])->get()]);
-    });
+Route::middleware("auth")->prefix('/')->group(function() {
 
     Route::controller(AvailabilityController::class)->prefix("/availability")->group(function () {
         Route::get("/", 'index')->name("availability");
@@ -46,6 +43,10 @@ Route::middleware('auth')->prefix('/')->group(function() {
     Route::controller(OeeController::class)->prefix("/oee")->group(function () {
         Route::get("/{id}", 'index')->name("oee");
         Route::post("/create/{qid}/{pid}/{aid}", 'create')->name("oee.create");
+    });
+
+    Route::controller(\App\Http\Controllers\OeeController::class)->group(function() {
+        Route::get("/", "index");
     });
 
 });
