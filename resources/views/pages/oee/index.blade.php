@@ -60,6 +60,8 @@
 
                                 <h4 class="col-12 mb-3">Total</h4>
 
+                                <label class="col-2 col-form-label d-flex justify-content-center align-items-center mb-4"
+                                for="availability_ratio">OEE</label>
                                 <input type="text" class="form-control col-3 mb-4" name="oee" id="oee"
                                     disabled>
                                 <p class="col-1 d-flex justify-content-center align-items-center mb-4">%</p>

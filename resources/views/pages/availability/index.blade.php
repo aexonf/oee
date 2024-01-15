@@ -95,10 +95,10 @@
 
                                 <h4 class="col-12 my-4">Total</h4>
                                 <label
-                                    class="mt-2 col-2 col-form-label d-flex justify-content-center align-items-center text-decoration-underline"><u>
+                                    class="mt-2 col-2 col-form-label d-flex justify-content-center align-items-center">
                                         Availability
                                         Ratio
-                                    </u></label>
+                                    </label>
                                 <input type="text" class="form-control col-3 mt-3" id="availability_ratio"
                                     name="availability_ratio" readonly>
                                 <p class="col-1 d-flex justify-content-center align-items-end">%</p>

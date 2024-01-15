@@ -16,7 +16,7 @@
             <div class="section-body">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between">
-                        <h3>Data</h3>
+                        <h3>OEE (Overall Equipment Effectiveness)</h3>
                         <a href="{{ route('availability') }}" class="btn btn-primary btn-lg">
                             Buat
                         </a>
@@ -39,7 +39,7 @@
                                     <td>{{$item->availability->availability_ratio}}</td>
                                     <td>{{$item->performance->performance_efficiency}}</td>
                                     <td>{{$item->quality->rate_of_quality_product}}</td>
-                                    <td>{{ $item->availability->availability_ratio * $item->performance->performance_efficiency * $item->quality->rate_of_quality_product }}</td>
+                                    <td>{{ $item->availability->availability_ratio * $item->performance->performance_efficiency * $item->quality->rate_of_quality_product / 10000 }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>
