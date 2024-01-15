@@ -61,28 +61,34 @@
 
         </section>
     </div>
-
 @endsection
 
 @push('scripts')
     <script src="{{ asset('library/chart.js/dist/Chart.min.js') }}"></script>
     <script src="{{ asset('js/page/modules-chartjs.js') }}"></script>
     <script>
-        const ctxData = document.getElementById('cart-data').getContext('2d');
+        const dataArray = {!! $data !!};
+        const data = dataArray.map(item => {
+            return {
+                oee: (item.availability.availability_ratio * item.performance.performance_efficiency * item.quality
+                    .rate_of_quality_product) / 10000,
+                created_at: item.created_at
+            }
+        })
+        console.log(data)
 
-        console.log(ctxData)
+        const ctxData = document.getElementById('cart-data').getContext('2d');
 
         new Chart(ctxData, {
             type: 'bar',
             data: {
-                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'], // date
+                labels: data.map(item => new Date(item?.created_at).toLocaleDateString()),
                 datasets: [{
                     label: 'OEE',
-                    data: [12, 19, 3, 5, 11, 3], // value
+                    data: data.map(item => item?.oee),
                     backgroundColor: '#6777ef'
                 }]
             },
-
         });
     </script>
     @if (session('success'))
