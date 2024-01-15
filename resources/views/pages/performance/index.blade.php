@@ -11,7 +11,7 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Performance</h1>
+                <h1>Performance Efficiency</h1>
             </div>
 
             @if (session('success') || session('error'))
@@ -64,7 +64,7 @@
                                     name="operation_time" id="operation_time" readonly>
                                 <p class="col-1 d-flex justify-content-center align-items-center mb-4">menit</p>
 
-                                <h5 class="col-12 mb-3">Performance</h5>
+                                <h5 class="col-12 mb-3">Total</h5>
                                 <label class="col-2 col-form-label d-flex justify-content-center align-items-center mb-4"
                                     for="performance_efficiency">Performance Efficiency</label>
                                 <input type="text" class="form-control col-3 mb-4 " name="performance_efficiency"
@@ -102,6 +102,7 @@
                             <table class="table table-striped table-md">
                                 <tbody>
                                     <tr>
+                                        <th>#</th>
                                         <th>Operation Time</th>
                                         <th>Jumlah Produksi</th>
                                         <th>Target Produksi</th>
@@ -113,8 +114,9 @@
 
                                     <tr>
                                         @if (session('success') && session('performance'))
+                                        <?php $count = 1;  ?>
                                         <?php $availabilityData = json_decode(session('performance')); ?>
-                                            <td>1</td>
+                                            <td>{{ $count++ }}</td>
                                             <td>{{ $data->operation_time }}</td>
                                             <td>{{ $availabilityData->jumlah_produksi }}</td>
                                             <td>{{ $availabilityData->target_produksi }}</td>

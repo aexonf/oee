@@ -1,6 +1,6 @@
 @extends('components.elements.app')
 
-@section('title', 'OEE - Rate of Quality Product ')
+@section('title', 'Rate of Quality Product')
 
 @push('style')
     <!-- CSS Libraries -->
