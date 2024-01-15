@@ -12,8 +12,17 @@
             <div class="section-header">
                 <h1>Dashboard</h1>
             </div>
-
             <div class="section-body">
+                <div class="card">
+                    <div class="card-header">
+                        <h1 class="text-primary">
+                            Statistics
+                        </h1>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="cart-data" style="height: 320px; width: 100%;"></canvas>
+                    </div>
+                </div>
                 <div class="card">
                     <div class="card-header d-flex justify-content-between">
                         <h3>OEE (Overall Equipment Effectiveness)</h3>
@@ -34,13 +43,14 @@
                             </thead>
                             <tbody>
                                 @foreach ($data as $index => $item)
-                                <tr>
-                                    <th scope="row">{{$index + 1}}</th>
-                                    <td>{{$item->availability->availability_ratio}}</td>
-                                    <td>{{$item->performance->performance_efficiency}}</td>
-                                    <td>{{$item->quality->rate_of_quality_product}}</td>
-                                    <td>{{ $item->availability->availability_ratio * $item->performance->performance_efficiency * $item->quality->rate_of_quality_product / 10000 }}</td>
-                                </tr>
+                                    <tr>
+                                        <th scope="row">{{ $index + 1 }}</th>
+                                        <td>{{ $item->availability->availability_ratio }}</td>
+                                        <td>{{ $item->performance->performance_efficiency }}</td>
+                                        <td>{{ $item->quality->rate_of_quality_product }}</td>
+                                        <td>{{ ($item->availability->availability_ratio * $item->performance->performance_efficiency * $item->quality->rate_of_quality_product) / 10000 }}
+                                        </td>
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>
@@ -55,6 +65,26 @@
 @endsection
 
 @push('scripts')
+    <script src="{{ asset('library/chart.js/dist/Chart.min.js') }}"></script>
+    <script src="{{ asset('js/page/modules-chartjs.js') }}"></script>
+    <script>
+        const ctxData = document.getElementById('cart-data').getContext('2d');
+
+        console.log(ctxData)
+
+        new Chart(ctxData, {
+            type: 'bar',
+            data: {
+                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'], // date
+                datasets: [{
+                    label: 'OEE',
+                    data: [12, 19, 3, 5, 11, 3], // value
+                    backgroundColor: '#6777ef'
+                }]
+            },
+
+        });
+    </script>
     @if (session('success'))
         <script>
             document.getElementById('route-admin').click();
