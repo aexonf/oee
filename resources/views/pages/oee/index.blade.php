@@ -127,7 +127,8 @@
                 const rateOfQualityProduct = parseFloat(inputRateOfQualityProduct.value) || 0;
 
                 // Calculate OEE
-                const oee = availabilityRatio * performanceEfficiency * rateOfQualityProduct;
+                const oee = (availabilityRatio * performanceEfficiency * rateOfQualityProduct) / 10000;
+                console.log(parseFloat(oee))
 
                 // Update the OEE input field
                 inputOee.value = oee;
