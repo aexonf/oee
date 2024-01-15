@@ -11,7 +11,7 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>OE (Overall Equipment Effectiveness)</h1>
+                <h1>OEE (Overall Equipment Effectiveness)</h1>
             </div>
 
             @if (session('success') || session('error'))
