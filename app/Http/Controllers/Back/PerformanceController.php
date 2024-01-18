@@ -16,7 +16,6 @@ class PerformanceController extends Controller
         return view('pages.performance.index', [
             "data" => Availability::find($id),
             "id" => $id,
-            // "performance" => Performance::with('availability')->where("availability_id", $id)->first()
         ]);
     }
 
@@ -34,17 +33,14 @@ class PerformanceController extends Controller
             "jumlah_produksi" => "numeric",
             "target_produksi" => "numeric",
             "actual_cycle_time" => "numeric",
-            "operation_time" => "numeric"
+            "processed_amount" => "numeric",
         ]);
 
-        $validasi["target_produksi"] = $request->target_produksi;
-        $validasi["actual_cycle_time"] = $request->actual_cycle_time;
         $validasi["performance_efficiency"] = $request->performance_efficiency;
         $validasi["availability_id"] = $id;
 
         // Membuat data Performance dengan menggunakan model dan data validasi
         $create = Performance::create($validasi);
-
         // Memberikan feedback menggunakan flash message
         if ($create) {
             Session::flash("success", "Berhasil membuat data performance");

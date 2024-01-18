@@ -34,35 +34,55 @@
                             @csrf
                             @method('POST')
                             <div class="form-group mb-2 row">
-
-                                <label class="col-2 col-form-label d-flex justify-content-center align-items-center mb-4"
-                                    for="cycle_time">Ideal Cycle Time <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control col-3 mb-4" name="cycle_time" id="cycle_time">
-                                <p class="col-1 d-flex justify-content-center align-items-center mb-4">menit / unit</p>
-
                                 <label class="col-2 col-form-label d-flex justify-content-center align-items-center mb-4"
                                     for="jumlah_produksi">Jumlah Produksi <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control col-3 mb-4" name="jumlah_produksi"
                                     id="jumlah_produksi">
                                 <p class="col-1 d-flex justify-content-center align-items-center mb-4">unit</p>
 
+                                <h5 class="col-12 mb-3">Cycle Time</h5>
                                 <label class="col-2 col-form-label d-flex justify-content-center align-items-center mb-4"
-                                    for="target_produksi">Jumlah Target Produksi <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control col-3 mb-4" readonly name="target_produksi"
-                                    id="target_produksi">
-                                <p class="col-1 d-flex justify-content-center align-items-center mb-4">unit</p>
+                                    for="loading_time">Loading Time <span class="text-danger">*</span></label>
+                                <input type="text" readonly value="{{ $data->loading_time }}"
+                                    class="form-control col-3 mb-4" name="loading_time" id="loading_time">
+                                <p class="col-1 d-flex justify-content-center align-items-center mb-4">menit / unit</p>
+
+                                <label class="col-2 col-form-label d-flex justify-content-center align-items-center"
+                                    for="cycle_time_total">Total</label>
+                                <input type="text" class="form-control col-3" readonly name="cycle_time_total"
+                                    id="cycle_time_total">
+                                <p class="col-1 d-flex justify-content-center align-items-center">menit</p>
 
                                 <label class="col-2 col-form-label d-flex justify-content-center align-items-center mb-4"
-                                    for="actual_cycle_time">Actual Cycle time <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control col-3 mb-4 " readonly name="actual_cycle_time"
-                                    id="actual_cycle_time">
+                                    for="processed_amount">Processed Amount <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control col-3 mb-4" name="processed_amount"
+                                    id="processed_amount">
+                                <p class="col-1 d-flex justify-content-center align-items-center mb-4">unit</p>
+
+                                <h5 class="col-12 mb-3">Ideal Cycle Time</h5>
+
+                                <label class="col-2 col-form-label d-flex justify-content-center align-items-center mb-4"
+                                    for="cycle_time">Cycle time <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control col-3 mb-4 " name="cycle_time" id="cycle_time">
                                 <p class="col-1 d-flex justify-content-center align-items-center mb-4">menit / unit</p>
 
                                 <label class="col-2 col-form-label d-flex justify-content-center align-items-center mb-4"
-                                    for="operation_time">Operation Time <span class="text-danger">*</span></label>
-                                <input value="{{ $data->operation_time }}" type="text" class="form-control col-3 mb-4 "
-                                    name="operation_time" id="operation_time" readonly>
+                                    for="total_ideal_cycle_time">Total <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control col-3 mb-4 " name="total_ideal_cycle_time"
+                                    id="total_ideal_cycle_time" readonly>
+
+                                <label class="col-2 col-form-label d-flex justify-content-center align-items-center mb-4"
+                                    for="jam_kerja">Jam Kerja <span class="text-danger">*</span></label>
+                                <input value="{{ $data->jam_kerja }}" readonly type="text"
+                                    class="form-control col-3 mb-4 " name="jam_kerja" id="jam_kerja">
                                 <p class="col-1 d-flex justify-content-center align-items-center mb-4">menit</p>
+
+                                <div class="col-6"></div>
+                                <label class="col-2 col-form-label d-flex justify-content-center align-items-center mb-4"
+                                    for="operation_time">Operation Time</label>
+                                <input type="text" class="form-control col-3 mb-4 " name="operation_time"
+                                    value="{{ $data->operation_time }}" id="operation_time" readonly>
+                                <p class="col-1 d-flex justify-content-center align-items-center mb-4">%</p>
 
                                 <h5 class="col-12 mb-3">Total</h5>
                                 <label class="col-2 col-form-label d-flex justify-content-center align-items-center mb-4"
@@ -75,7 +95,6 @@
                                 </h3>
                                 <h3 class="col-12" id="performance_efficiency_val">
                                 </h3>
-
 
                             </div>
                             <div class="mt-5 d-flex justify-content-between">
@@ -114,27 +133,17 @@
 
                                     <tr>
                                         @if (session('success') && session('performance'))
-                                        <?php $count = 1;  ?>
+                                        <?php $count = 1; ?>
                                         <?php $availabilityData = json_decode(session('performance')); ?>
-                                            <td>{{ $count++ }}</td>
-                                            <td>{{ $data->operation_time }}</td>
-                                            <td>{{ $availabilityData->jumlah_produksi }}</td>
-                                            <td>{{ $availabilityData->target_produksi }}</td>
-                                            <td>{{ $availabilityData->actual_cycle_time }}</td>
-                                            <td>{{ $availabilityData->cycle_time }}</td>
-                                            <td>{{ $availabilityData->performance_efficiency }}</td>
-                                            <td class="d-flex">
-                                                <a href="{{ route('quality', $availabilityData->id) }}"
-                                                    class="btn btn-success ml-2" id="button-lanjut">Lanjut</a>
-                                                <form action="{{ route('performance.delete', $availabilityData->id) }}"
-                                                    method="post">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger ml-2"
-                                                        id="button-hapus-semua">Hapus</button>
-                                                </form>
-                                            </td>
-                                        @endif
+                                        <tr>
+                                        {{ session('performance') }}
+                                        <td>{{ $count++ }}</td>
+                                        <td>{{ $availabilityData->jumlah_produksi }}</td>
+                                        <td>{{ $availabilityData->processed_amount }}</td>
+                                        <td>{{ $availabilityData->cycle_time }}</td>
+                                    </tr>
+                                    @endif
+
                                     </tr>
                                 </tbody>
                             </table>
@@ -152,48 +161,61 @@
     </div>
 
     <script>
+        // Check if idealCycleTime is zero
+        // if (idealCycleTime === 0) {
+        //     // Handle the case where idealCycleTime is zero (for example, set targetProduksi to a default value)
+        //     document.getElementById('processed_amount').value = 0;
+        //     document.getElementById('actual_cycle_time').value = 0;
+        //     document.getElementById('performance_efficiency').value = 0;
+
+        //     // Display an error message or handle it as needed
+        //     console.error("Error: idealCycleTime should not be zero.");
+        //     return;
+        // }
+
+        // // Calculate target produksi
+        // const targetProduksi = operationTime / idealCycleTime;
+
+        // // Handle the case where targetProduksi is Infinity
+        // if (!isFinite(targetProduksi)) {
+        //     // Set targetProduksi to a default value or display an error message
+        //     document.getElementById('processed_amount').value = 0;
+        //     document.getElementById('actual_cycle_time').value = 0;
+        //     document.getElementById('performance_efficiency').value = 0;
+
+        //     // Display an error message or handle it as needed
+        //     console.error("Error: Target Produksi is Infinity.");
+        //     return;
+        // }
+
+        // document.getElementById('processed_amount').value = targetProduksi;
+
+
         function hitung() {
+
+            /*
+            1. total cycle time = loading time / processed amount
+            2. total ideal cycle time = cycle time * jam kerja
+            3. performance = jumlah produksi - ideal cycle time / operation time * 100%
+            */
+
             // Get input values
-            const idealCycleTime = parseFloat(document.getElementById('cycle_time').value) || 0;
+            const loadingTime = parseFloat(document.getElementById('loading_time').value) || 0;
+            const processedAmount = parseFloat(document.getElementById('processed_amount').value) || 0;
             const jumlahProduksi = parseInt(document.getElementById('jumlah_produksi').value) || 0;
-
-            // Calculate actual cycle time
             const operationTime = parseFloat(document.getElementById('operation_time').value) || 0;
+            const cycleTime = parseFloat(document.getElementById('cycle_time').value) || 0;
+            const jamKerja = parseFloat(document.getElementById('jam_kerja').value) || 0;
 
-            // Check if idealCycleTime is zero
-            if (idealCycleTime === 0) {
-                // Handle the case where idealCycleTime is zero (for example, set targetProduksi to a default value)
-                document.getElementById('target_produksi').value = 0;
-                document.getElementById('actual_cycle_time').value = 0;
-                document.getElementById('performance_efficiency').value = 0;
 
-                // Display an error message or handle it as needed
-                console.error("Error: idealCycleTime should not be zero.");
-                return;
-            }
+            const cycleTimeTotal = loadingTime / processedAmount;
+            document.getElementById('cycle_time_total').value = cycleTimeTotal;
 
-            // Calculate target produksi
-            const targetProduksi = operationTime / idealCycleTime;
-
-            // Handle the case where targetProduksi is Infinity
-            if (!isFinite(targetProduksi)) {
-                // Set targetProduksi to a default value or display an error message
-                document.getElementById('target_produksi').value = 0;
-                document.getElementById('actual_cycle_time').value = 0;
-                document.getElementById('performance_efficiency').value = 0;
-
-                // Display an error message or handle it as needed
-                console.error("Error: Target Produksi is Infinity.");
-                return;
-            }
-
-            document.getElementById('target_produksi').value = targetProduksi;
-
-            const actualCycleTime = operationTime / jumlahProduksi;
-            document.getElementById('actual_cycle_time').value = actualCycleTime;
+            const idealCycleTimeTotal = cycleTime * jamKerja;
+            document.getElementById('total_ideal_cycle_time').value = idealCycleTimeTotal;
 
             // Calculate performance efficiency
-            const performanceEfficiency = (jumlahProduksi * idealCycleTime) / operationTime * 100;
+            const performanceEfficiency = (jumlahProduksi - idealCycleTimeTotal) / operationTime * 100;
             document.getElementById('performance_efficiency').value = performanceEfficiency;
 
             const badgeContainer = document.getElementById('performance_efficiency_val');
@@ -222,12 +244,3 @@
     </script>
 
 @endsection
-
-@push('scripts')
-    <script>
-        const buttonHitung = $('#button-hitung');
-        const buttonReset = $('#button-reset');
-        const buttonSimpan = $('#button-simpan');
-        const buttonLanjut = $('#button-lanjut');
-    </script>
-@endpush

@@ -34,14 +34,20 @@
                             @csrf
                             @method('POST')
                             <div class="form-group mb-2 mb-md-3 row">
-                                <h5 class="col-12 mb-3">Machine Working Times</h5>
+                                <h5 class="col-12 mb-3">Total Working Time Machine</h5>
+
+                                <label class="mb-3 col-2 col-form-label d-flex justify-content-center align-items-center"
+                                    for="jam_kerja">Jam Kerja <span class="text-danger">*</span></label>
+                                <input type="text" class="mb-3 form-control col-3" name="jam_kerja" id="jam_kerja"
+                                    required>
+                                <p class="mb-3 col-1 d-flex justify-content-center align-items-center">menit</p>
 
                                 <label class="col-2 col-form-label d-flex justify-content-center align-items-center"
-                                    for="jam_kerja">Jam Kerja <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control col-3" name="jam_kerja" id="jam_kerja" required>
+                                    for="jam_total">Total</label>
+                                <input type="text" class="form-control col-3" readonly name="jam_total" id="jam_total">
                                 <p class="col-1 d-flex justify-content-center align-items-center">menit</p>
 
-                                <label class="col-2 col-form-label d-flex justify-content-center align-items-center">Jam
+                                <label class="col-2 col-form-label d-flex justify-content-center align-items-center" for="jam_lembur">Jam
                                     Lembur <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control col-3" name="jam_lembur" id="jam_lembur" required>
                                 <p class="col-1 d-flex justify-content-center align-items-center">menit</p>
@@ -49,30 +55,31 @@
                                 <h5 class="col-12 my-3">Loading Time</h5>
 
                                 <label class="col-3 col-form-label d-flex justify-content-center align-items-center"
-                                    for="machine_working_times">Machine Working Machine <span
+                                    for="total_machine_working_times">Total Working Time Machine<span
                                         class="text-danger">*</span></label>
-                                <input type="text" class="form-control col-2" id="machine_working_times"
-                                    name="machine_working_times" readonly>
+                                <input type="text" class="form-control col-2" id="total_machine_working_times"
+                                    name="total_machine_working_times">
                                 <p class="col-1 d-flex justify-content-center align-items-center">menit</p>
 
-                                <label class="col-2 col-form-label d-flex justify-content-center align-items-center">Planned
+                                <label class="col-2 col-form-label d-flex justify-content-center align-items-center"
+                                    for="loading_time">Total</label>
+                                <input type="text" class="form-control col-3" readonly name="loading_time"
+                                    id="loading_time">
+                                <p class="col-1 d-flex justify-content-center align-items-center"></p>
+
+                                <label
+                                for="planned_downtime"
+                                    class="col-3 col-form-label d-flex justify-content-center align-items-center mt-3">Planned
                                     Downtime <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control col-3" id="planned_downtime"
+                                <input type="text" class="form-control col-2 mt-3" id="planned_downtime"
                                     name="planned_downtime" required>
-                                <p class="col-1 d-flex justify-content-center align-items-center">menit</p>
+                                <p class="col-1 d-flex justify-content-center align-items-center mt-3">menit</p>
 
-                                <h5 class="col-12 my-3">Operation Time</h5>
-
-                                <label class="col-2 col-form-label d-flex justify-content-center align-items-center"
-                                    for="loading_time"><b>Loading Time</b></label>
-                                <input type="text" class="form-control col-3" id="loading_time" name="loading_time"
-                                    readonly>
-                                <p class="col-1 d-flex justify-content-center align-items-center">menit</p>
+                                <h5 class="col-12 my-3">Downtime</h5>
 
                                 <label class="col-2 col-form-label d-flex justify-content-center align-items-center"
-                                    for="failure_repair">Failure and Repair <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control col-3" id="failure_repair" name="failure_repair"
-                                    required>
+                                    for="breakdown"><b>Breakdown</b></label>
+                                <input type="text" class="form-control col-3" id="breakdown" name="breakdown">
                                 <p class="col-1 d-flex justify-content-center align-items-center">menit</p>
 
                                 <label class="mt-2 col-2 col-form-label d-flex justify-content-center align-items-center"
@@ -84,8 +91,8 @@
                                     name="setup_adjustment" required>
                                 <p class="col-1 d-flex justify-content-center align-items-end">menit</p>
 
-                                <label
-                                    class="mt-2 col-2 col-form-label d-flex justify-content-center align-items-center"><b>
+                                <label class="mt-2 col-2 col-form-label d-flex justify-content-center align-items-center"
+                                    for="operation_time"><b>
                                         Operation
                                         Time
                                     </b></label>
@@ -94,11 +101,10 @@
                                 <p class="col-1 d-flex justify-content-center align-items-end">menit</p>
 
                                 <h4 class="col-12 my-4">Total</h4>
-                                <label
-                                    class="mt-2 col-2 col-form-label d-flex justify-content-center align-items-center">
-                                        Availability
-                                        Ratio
-                                    </label>
+                                <label class="mt-2 col-2 col-form-label d-flex justify-content-center align-items-center">
+                                    Availability
+                                    Ratio
+                                </label>
                                 <input type="text" class="form-control col-3 mt-3" id="availability_ratio"
                                     name="availability_ratio" readonly>
                                 <p class="col-1 d-flex justify-content-center align-items-end">%</p>
@@ -108,8 +114,8 @@
                                         * Target presentase availability ratio = <span class="text-black">90%</span>
                                     </h5>
                                 </div>
-                                <h3 class="col-12" id="availiability_ratio">
-                                </h3>
+                                <div class="col-12" id="availiability_ratio_value">
+                                </div>
 
                             </div>
                             <div class="mt-5 d-flex justify-content-between">
@@ -137,11 +143,12 @@
                                             <tbody>
                                                 <tr>
                                                     <th>#</th>
+                                                    <th>Tanggal</th>
                                                     <th>Jam Kerja</th>
                                                     <th>Jam Lembur</th>
                                                     <th>Planned Downtime</th>
                                                     <th>Loading Time</th>
-                                                    <th>Failure & Repair</th>
+                                                    <th>Breakdown</th>
                                                     <th>Setup & Adjustment</th>
                                                     <th>Operation Time</th>
                                                     <th>Availality Ratio</th>
@@ -152,11 +159,12 @@
                                                     <?php $availabilityData = json_decode(session('data')); ?>
                                                     <tr>
                                                         <td>1</td>
+                                                        <td>{{ $availabilityData->created_at }}</td>
                                                         <td>{{ $availabilityData->jam_kerja }}</td>
                                                         <td>{{ $availabilityData->jam_lembur }}</td>
                                                         <td>{{ $availabilityData->planned_downtime }}</td>
                                                         <td>{{ $availabilityData->loading_time }}</td>
-                                                        <td>{{ $availabilityData->failure_repair }}</td>
+                                                        <td>{{ $availabilityData->breakdown }}</td>
                                                         <td>{{ $availabilityData->setup_adjustment }}</td>
                                                         <td>{{ $availabilityData->operation_time }}</td>
                                                         <td>{{ $availabilityData->availability_ratio }}</td>
@@ -188,23 +196,26 @@
 
     <script>
         function hitung() {
+
             const jamKerja = parseInt(document.getElementById('jam_kerja').value) || 0;
             const jamLembur = parseInt(document.getElementById('jam_lembur').value) || 0;
             const plannedDowntime = parseInt(document.getElementById('planned_downtime').value) || 0;
-            const failureRepair = parseInt(document.getElementById('failure_repair').value) || 0;
+            const breakdown = parseInt(document.getElementById('breakdown').value) || 0;
             const setupAdjustment = parseInt(document.getElementById('setup_adjustment').value) || 0;
 
             const machineWorkingTimes = jamKerja + jamLembur;
             const loadingTime = machineWorkingTimes - plannedDowntime;
-            const operationTime = (loadingTime - failureRepair) - setupAdjustment;
+            const downtime = breakdown + setupAdjustment;
+            const operationTime = (loadingTime - downtime) / loadingTime;
             const availabilityRatio = operationTime / loadingTime * 100;
 
-            document.getElementById('machine_working_times').value = machineWorkingTimes;
+            document.getElementById('total_machine_working_times').value = machineWorkingTimes;
             document.getElementById('loading_time').value = loadingTime;
             document.getElementById('operation_time').value = operationTime;
             document.getElementById('availability_ratio').value = availabilityRatio;
+            document.getElementById('jam_total').value = machineWorkingTimes;
 
-            const badgeContainer = document.getElementById('availiability_ratio');
+            const badgeContainer = document.getElementById('availiability_ratio_value');
 
             // Clear previous badges
             badgeContainer.innerHTML = '';
@@ -229,12 +240,3 @@
         }
     </script>
 @endsection
-
-@push('scripts')
-    <script>
-        const buttonHitung = $('#button-hitung');
-        const buttonReset = $('#button-reset');
-        const buttonSimpan = $('#button-simpan');
-        const buttonLanjut = $('#button-lanjut');
-    </script>
-@endpush

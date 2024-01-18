@@ -33,8 +33,7 @@
                         <form class="needs-validation" method="POST" action="{{ route('quality.create', $id) }}">
                             @csrf
                             @method('POST')
-                            <div class="form-group mb-2 row">
-                                <h5 class="col-12 mb-3">Quality</h5>
+                            <div class="form-group mb-2 row"> // hallo sa
                                 <label class="col-2 col-form-label d-flex justify-content-center align-items-center mb-4"
                                     for="reject_setup">Reject saat Setup</label>
                                 <input type="text" class="form-control col-3 mb-4" name="reject_setup" id="reject_setup">

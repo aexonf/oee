@@ -13,12 +13,10 @@ return new class extends Migration
     {
         Schema::create('performance', function (Blueprint $table) {
             $table->id();
-            $table->string('cycle_time');
             $table->string('jumlah_produksi');
-            $table->string('target_produksi');
-            $table->string('actual_cycle_time');
+            $table->string('processed_amount');
+            $table->string('cycle_time');
             $table->string('performance_efficiency');
-            $table->string('operation_time');
             // relasi
             $table->unsignedBigInteger('availability_id');
             $table->foreign('availability_id')->references('id')->on('availability')->onDelete("CASCADE");
