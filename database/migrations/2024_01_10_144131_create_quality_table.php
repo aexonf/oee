@@ -13,9 +13,7 @@ return new class extends Migration
     {
         Schema::create('quality', function (Blueprint $table) {
             $table->id();
-            $table->string('reject_setup');
-            $table->string('reject_rework');
-            $table->string('jumlah_produksi');
+            $table->string('defeat_amount');
             $table->string('rate_of_quality_product');
 
             // relasi

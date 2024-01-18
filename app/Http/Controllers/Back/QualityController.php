@@ -28,12 +28,10 @@ class QualityController extends Controller
     {
         // Validasi input data
         $validasi = $request->validate([
-            "reject_setup" => "numeric",
-            "reject_rework" => "numeric",
+            "defeat_amount" => "numeric",
         ]);
 
         $validasi["rate_of_quality_product"] = $request->rate_of_quality_product;
-        $validasi["jumlah_produksi"] = $request->jumlah_produksi;
         $validasi["performance_id"] = $id;
 
         // Membuat data Quality dengan menggunakan model dan data validasi

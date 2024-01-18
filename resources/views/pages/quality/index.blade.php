@@ -33,21 +33,21 @@
                         <form class="needs-validation" method="POST" action="{{ route('quality.create', $id) }}">
                             @csrf
                             @method('POST')
-                            <div class="form-group mb-2 row"> // hallo sa
+                            <div class="form-group mb-2 row">
                                 <label class="col-2 col-form-label d-flex justify-content-center align-items-center mb-4"
-                                    for="reject_setup">Reject saat Setup</label>
-                                <input type="text" class="form-control col-3 mb-4" name="reject_setup" id="reject_setup">
+                                    for="processed_amount">Processed Amount</label>
+                                <input type="text" value="{{$data->processed_amount}}" readonly class="form-control col-3 mb-4" name="processed_amount" id="processed_amount">
                                 <p class="col-1 d-flex justify-content-center align-items-center mb-4">unit</p>
                                 <label class="col-2 col-form-label d-flex justify-content-center align-items-center mb-4"
-                                    for="reject_rework">Reject dan Rework</label>
-                                <input type="text" class="form-control col-3 mb-4" name="reject_rework"
-                                    id="reject_rework">
-                                <p class="col-1 d-flex justify-content-center align-items-center mb-4">unit</p>
+                                    for="total">Total</label>
+                                <input type="text" class="form-control col-3 mb-4" name="total"
+                                    id="total" readonly>
                                 <label class="col-2 col-form-label d-flex justify-content-center align-items-center mb-4"
-                                    for="jumlah_produksi">Jumlah Produksi</label>
-                                <input type="text" value="{{ $data->jumlah_produksi }}" class="form-control col-3 mb-4"
-                                    name="jumlah_produksi" id="jumlah_produksi" readonly>
+                                    for="defeat_amount">Defeat Amount</label>
+                                <input type="text" class="form-control col-3 mb-4"
+                                    name="defeat_amount" id="defeat_amount" >
                                 <p class="col-1 d-flex justify-content-center align-items-center mb-4">unit</p>
+
 
                                 <h5 class="col-2 d-flex justify-content-center align-items-center mb-3">Rate of quality
                                     Product</h5>
@@ -82,23 +82,23 @@
                             <table class="table table-striped table-md">
                                 <tbody>
                                     <tr>
-                                        <th>Jumlah Produksi</th>
-                                        <th>Reject saat Setup</th>
-                                        <th>Reject & Rework</th>
+                                        <th>Tanggal</th>
+                                        <th>Processed Amount</th>
+                                        <th>Defeat Amount</th>
                                         <th>Rate of Quality</th>
                                         <th>Action</th>
                                     </tr>
                                     @if (session('success') && session('quality'))
-                                    <?php $quality = json_decode(session('quality')); ?>
+                                    <?php $quality = session('quality'); ?>
                                         <tr>
                                             <td>
-                                                {{ $quality->jumlah_produksi }}
+                                                {{ $quality->created_at }}
                                             </td>
                                             <td>
-                                                {{ $quality->reject_setup }}
+                                                {{ $quality->performance->processed_amount }}
                                             </td>
                                             <td>
-                                                {{ $quality->reject_rework }}
+                                                {{ $quality->defeat_amount }}
                                             </td>
                                             <td>
                                                 {{ $quality->rate_of_quality_product }}
@@ -135,13 +135,14 @@
     <script>
         function hitung() {
             // Get input values
-            const rejectSetup = parseFloat(document.getElementById('reject_setup').value) || 0;
-            const rejectRework = parseFloat(document.getElementById('reject_rework').value) || 0;
-            const jumlahProduksi = parseInt(document.getElementById('jumlah_produksi').value) || 0;
+            const processedAmount = parseFloat(document.getElementById('processed_amount').value) || 0;
+            const defeatAmount = parseFloat(document.getElementById('defeat_amount').value) || 0;
+
+            const total = processedAmount - defeatAmount;
+            document.getElementById("total").value = total;
 
             // Calculate rate of quality product
-            const rateOfQualityProduct = (jumlahProduksi - rejectSetup - rejectRework) / jumlahProduksi * 100;
-            console.log(rateOfQualityProduct, rejectRework, rejectSetup, jumlahProduksi)
+            const rateOfQualityProduct = (processedAmount - defeatAmount) / processedAmount;
             document.getElementById('rate_of_quality_product').value = rateOfQualityProduct.toFixed(5);
 
 

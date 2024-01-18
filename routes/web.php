@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::prefix('/')->group(function() {
+Route::middleware("auth")->prefix('/')->group(function() {
 
     Route::controller(AvailabilityController::class)->prefix("/availability")->group(function () {
         Route::get("/", 'index')->name("availability");
