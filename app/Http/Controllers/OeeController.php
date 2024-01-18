@@ -19,12 +19,13 @@ class OeeController extends Controller
         $data_oee_week = OverallEquipmentEffectiveness::whereDate('created_at', $date->toDateString())->get();
 
         array_push($data_oee_weeks, [
-            "data" => $data_oee_week
+            "data" => $data_oee_week,
+            "date" => $date->toDateString()
         ]);
 
         }
 
-        $data_oee_weeks = json_encode($data_oee_weeks);
+        $data_oee_weeks = collect($data_oee_weeks)->unique('data.*.created_at')->toJson();
 
         return view("pages.index", [
             "dataOee" => $data_oee_weeks,

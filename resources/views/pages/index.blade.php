@@ -65,27 +65,20 @@
 
 @push('scripts')
     <script src="{{ asset('library/chart.js/dist/Chart.min.js') }}"></script>
-    <script src="{{ asset('js/page/modules-chartjs.js') }}"></script>
     <script>
-        const dataArray = {!! $data !!};
-        const data = dataArray.map(item => {
-            return {
-                oee: (item.availability.availability_ratio * item.performance.performance_efficiency * item.quality
-                    .rate_of_quality_product) / 10000,
-                created_at: item.created_at
-            }
-        })
-        console.log(data)
+        const dataArray = {!! $dataOee !!};
+        const data = dataArray.map(item => item)
 
-        const ctxData = document.getElementById('cart-data').getContext('2d');
+
+        const ctxData = document.getElementById('cart-data');
 
         new Chart(ctxData, {
             type: 'bar',
             data: {
-                labels: data.map(item => new Date(item?.created_at).toLocaleDateString()),
+                labels: data.map(item => new Date(item.date).toLocaleDateString()),
                 datasets: [{
                     label: 'OEE',
-                    data: data.map(item => item?.oee),
+                    data: data.map(item => item.data.map(items => console.log(items))),
                     backgroundColor: '#6777ef'
                 }]
             },

@@ -122,25 +122,42 @@
                                 <tbody>
                                     <tr>
                                         <th>#</th>
-                                        <th>Operation Time</th>
                                         <th>Jumlah Produksi</th>
-                                        <th>Target Produksi</th>
-                                        <th>Actual Cycle Time</th>
+                                        <th>Loading Time</th>
+                                        <th>Processed Amount</th>
+                                        <th>Cycle Time</th>
+                                        <th>Jam Kerja</th>
                                         <th>Ideal Cycle Time</th>
-                                        <th>Performance Efficiency</th>
+                                        <th>Operation Time</th>
+                                        <th>Performance</th>
                                         <th>Action</th>
                                     </tr>
 
                                     <tr>
                                         @if (session('success') && session('performance'))
                                         <?php $count = 1; ?>
-                                        <?php $availabilityData = json_decode(session('performance')); ?>
+                                        <?php $availabilityData = session('performance'); ?>
                                         <tr>
-                                        {{ session('performance') }}
                                         <td>{{ $count++ }}</td>
                                         <td>{{ $availabilityData->jumlah_produksi }}</td>
+                                        <td>{{ $availabilityData->availability->loading_time }}</td>
                                         <td>{{ $availabilityData->processed_amount }}</td>
                                         <td>{{ $availabilityData->cycle_time }}</td>
+                                        <td>{{ $availabilityData->availability->jam_kerja }}</td>
+                                        <td>12</td>
+                                        <td>{{ $availabilityData->availability->operation_time }}</td>
+                                        <td>{{ $availabilityData->performance_efficiency }}</td>
+                                           <td class="d-flex">
+                                                <a href="{{ route('quality', $availabilityData->id) }}"
+                                                    class="btn btn-success ml-2" id="button-lanjut">Lanjut</a>
+                                                <form action="{{ route('performance.delete', $availabilityData->id) }}"
+                                                    method="post">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger ml-2"
+                                                        id="button-hapus-semua">Hapus</button>
+                                                </form>
+                                            </td>
                                     </tr>
                                     @endif
 
