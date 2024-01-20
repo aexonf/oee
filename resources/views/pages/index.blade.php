@@ -78,7 +78,7 @@
                 labels: data.map(item => new Date(item.date).toLocaleDateString()),
                 datasets: [{
                     label: 'OEE',
-                    data: data.map(item => item.data.map(items => console.log(items))),
+                    data: data.map(item => item.data.length),
                     backgroundColor: '#6777ef'
                 }]
             },

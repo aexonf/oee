@@ -47,7 +47,8 @@
                                 <input type="text" class="form-control col-3" readonly name="jam_total" id="jam_total">
                                 <p class="col-1 d-flex justify-content-center align-items-center">menit</p>
 
-                                <label class="col-2 col-form-label d-flex justify-content-center align-items-center" for="jam_lembur">Jam
+                                <label class="col-2 col-form-label d-flex justify-content-center align-items-center"
+                                    for="jam_lembur">Jam
                                     Lembur <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control col-3" name="jam_lembur" id="jam_lembur" required>
                                 <p class="col-1 d-flex justify-content-center align-items-center">menit</p>
@@ -67,8 +68,7 @@
                                     id="loading_time">
                                 <p class="col-1 d-flex justify-content-center align-items-center"></p>
 
-                                <label
-                                for="planned_downtime"
+                                <label for="planned_downtime"
                                     class="col-3 col-form-label d-flex justify-content-center align-items-center mt-3">Planned
                                     Downtime <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control col-2 mt-3" id="planned_downtime"
@@ -83,24 +83,34 @@
                                 <p class="col-1 d-flex justify-content-center align-items-center">menit</p>
 
                                 <label class="mt-2 col-2 col-form-label d-flex justify-content-center align-items-center"
-                                    for="setup_adjustment">
-                                    Setup and Adjustment
+                                    for="total_downtime">
+                                    Total
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input type="text" class="form-control col-3 mt-3" id="setup_adjustment"
-                                    name="setup_adjustment" required>
+                                <input type="text" class="form-control col-3 mt-3" id="total_downtime"
+                                    name="total_downtime" readonly>
                                 <p class="col-1 d-flex justify-content-center align-items-end">menit</p>
 
                                 <label class="mt-2 col-2 col-form-label d-flex justify-content-center align-items-center"
-                                    for="operation_time"><b>
-                                        Operation
-                                        Time
+                                    for="setup_adjustment"><b>
+                                        Setup and Adjustment
                                     </b></label>
+                                <input type="text" class="form-control col-3 mt-3" id="setup_adjustment"
+                                    name="setup_adjustment">
+                                <p class="col-1 d-flex justify-content-center align-items-end">menit</p>
+
+                                <h4 class="col-12 my-4">Total</h4>
+
+                                <label class="mt-2 col-2 col-form-label d-flex justify-content-center align-items-center"
+                                    for="operation_time">
+                                    Operation Time
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="text" class="form-control col-3 mt-3" id="operation_time"
                                     name="operation_time" readonly>
                                 <p class="col-1 d-flex justify-content-center align-items-end">menit</p>
 
-                                <h4 class="col-12 my-4">Total</h4>
+
                                 <label class="mt-2 col-2 col-form-label d-flex justify-content-center align-items-center">
                                     Availability
                                     Ratio
@@ -214,6 +224,7 @@
             document.getElementById('operation_time').value = operationTime;
             document.getElementById('availability_ratio').value = availabilityRatio;
             document.getElementById('jam_total').value = machineWorkingTimes;
+            document.getElementById('total_downtime').value = downtime;
 
             const badgeContainer = document.getElementById('availiability_ratio_value');
 

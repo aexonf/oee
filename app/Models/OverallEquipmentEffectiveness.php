@@ -14,6 +14,9 @@ class OverallEquipmentEffectiveness extends Model
 
     protected $guarded = [];
 
+    protected $dates = ['created_at', 'updated_at'];
+
+
     public function performance(): BelongsTo {
         return $this->belongsTo(Performance::class);
     }

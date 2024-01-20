@@ -13,18 +13,19 @@ return new class extends Migration
     {
         Schema::create('overall_equipment_effectiveness', function (Blueprint $table) {
             $table->id();
-             // relasi
-             $table->unsignedBigInteger('availability_id');
-             $table->foreign('availability_id')->references('id')->on('availability')->onDelete("CASCADE");
+            // relasi
+            $table->unsignedBigInteger('availability_id');
+            $table->foreign('availability_id')->references('id')->on('availability')->onDelete("CASCADE");
 
-             $table->unsignedBigInteger('performance_id');
-             $table->foreign('performance_id')->references('id')->on('performance')->onDelete("CASCADE");
+            $table->unsignedBigInteger('performance_id');
+            $table->foreign('performance_id')->references('id')->on('performance')->onDelete("CASCADE");
 
-             $table->unsignedBigInteger('quality_id');
-             $table->foreign('quality_id')->references('id')->on('quality')->onDelete("CASCADE");
+            $table->unsignedBigInteger('quality_id');
+            $table->foreign('quality_id')->references('id')->on('quality')->onDelete("CASCADE");
 
 
-            $table->timestamps();
+            $table->date('created_at');
+            $table->date('updated_at');
         });
     }
 

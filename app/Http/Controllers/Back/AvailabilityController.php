@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Back;
 use App\Http\Controllers\Controller;
 use App\Models\Availability;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class AvailabilityController extends Controller
 {
@@ -32,13 +33,14 @@ class AvailabilityController extends Controller
             "setup_adjustment" => "numeric",
             "operation_time" => "numeric",
         ]);
-        
-        
+
+
         // Menambahkan hasil kalkulasi ke dalam array validasi
         $validasi["total_machine_working_times"] = $request->total_machine_working_times;
         $validasi["loading_time"] = $request->loading_time;
         $validasi["operation_time"] = $request->operation_time;
         $validasi["availability_ratio"] = $request->availability_ratio;
+        $validasi["created_at"] = Carbon::now()->format('Y-m-d');
 
         // Menyimpan data ke database
         $create = Availability::create($validasi);
@@ -49,7 +51,7 @@ class AvailabilityController extends Controller
         }
 
         return redirect()->back()->with("error", "Gagal membuat availability");
-        
+
     }
 
     public function delete($id)
