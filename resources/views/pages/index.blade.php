@@ -69,6 +69,9 @@
         const dataArray = {!! $dataOee !!};
         const data = dataArray.map(item => item)
 
+        /*
+        rumus rata rata hasil semua oee di bagi jumlah oee
+        */
 
         const ctxData = document.getElementById('cart-data');
 
@@ -78,7 +81,7 @@
                 labels: data.map(item => new Date(item.date).toLocaleDateString()),
                 datasets: [{
                     label: 'OEE',
-                    data: data.map(item => item.data.length),
+                    data: data.map(item => item.averageOee),
                     backgroundColor: '#6777ef'
                 }]
             },
