@@ -64,41 +64,44 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('library/chart.js/dist/Chart.min.js') }}"></script>
-    <script>
-        const dataArray = {!! $dataOee !!};
-        const data = dataArray.map(item => item)
+<script src="{{ asset('library/chart.js/dist/Chart.min.js') }}"></script>
+<script>
+    const dataArray = {!! $dataOee !!};
+    const data = dataArray.map(item => item);
 
-        /*
-        rumus rata rata hasil semua oee di bagi jumlah oee
-        */
+    const ctxData = document.getElementById('cart-data');
 
-        const ctxData = document.getElementById('cart-data');
+    new Chart(ctxData, {
+        type: 'bar',
+        data: {
+            labels: data.map(item => new Date(item.date).toLocaleDateString()),
+            datasets: [{
+                label: 'OEE',
+                data: data.map(item => {
+                    let value = item.averageOee;
 
-        new Chart(ctxData, {
-            type: 'bar',
-            data: {
-                labels: data.map(item => new Date(item.date).toLocaleDateString()),
-                datasets: [{
-                    label: 'OEE',
-                    data: data.map(item => {
-                        const value = item.averageOee < 0 ? 0 : (item.averageOee > 100 ? 100 : item
-                            .averageOee);
-                        return value;
-                    }),
-                    backgroundColor: '#6777ef'
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: 100,
+                    if (value < 0) {
+                        value = 0;
                     }
+
+                    value = Math.min(value, 100);
+
+                    return value;
+                }),
+                backgroundColor: '#6777ef'
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
                 }
             }
-        });
-    </script>
+        }
+    });
+</script>
+
     @if (session('success'))
         <script>
             document.getElementById('route-admin').click();
