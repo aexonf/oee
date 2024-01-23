@@ -77,23 +77,25 @@
                 labels: data.map(item => new Date(item.date).toLocaleDateString()),
                 datasets: [{
                     label: 'OEE',
-                    data: data.flatMap(item => {
-                        return item.data.map(dataItem => {
-                            const availabilityRatio = dataItem.availability
-                                .availability_ratio;
-                            const performanceEfficiency = dataItem.performance
-                                .performance_efficiency;
-                            const rateOfQualityProduct = dataItem.quality
-                                .rate_of_quality_product;
+                    data: data.map(item => {
+                        const availabilityRatio = item.data.map(innerItem => innerItem.availability
+                            .availability_ratio);
+                        const performanceEfficiency = item.data.map(innerItem => innerItem
+                            .performance.performance_efficiency);
+                        const rateOfQualityProduct = item.data.map(innerItem => innerItem.quality
+                            .rate_of_quality_product);
 
-                            const oee = Math.max(0, (availabilityRatio *
-                                    performanceEfficiency * rateOfQualityProduct) /
-                                10000);
-
-                            const roundedOee = Math.round(oee);
-
-                            return Math.min(roundedOee, 100);
+                        const oeeValues = availabilityRatio.map((ratio, index) => {
+                            let oee = Math.abs((ratio * performanceEfficiency[index] *
+                                rateOfQualityProduct[index]) / 10000);
+                            oee = Math.max(0, Math.min(100, oee));
+                            return oee;
                         });
+
+                        const averageOEE = oeeValues.reduce((acc, value) => acc + value, 0) /
+                            oeeValues.length;
+
+                        return averageOEE;
                     }),
                     backgroundColor: '#6777ef'
                 }]
