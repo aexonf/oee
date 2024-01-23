@@ -81,10 +81,22 @@
                 labels: data.map(item => new Date(item.date).toLocaleDateString()),
                 datasets: [{
                     label: 'OEE',
-                    data: data.map(item => item.averageOee),
+                    data: data.map(item => {
+                        const value = item.averageOee < 0 ? 0 : (item.averageOee > 100 ? 100 : item
+                            .averageOee);
+                        return value;
+                    }),
                     backgroundColor: '#6777ef'
                 }]
             },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                    }
+                }
+            }
         });
     </script>
     @if (session('success'))

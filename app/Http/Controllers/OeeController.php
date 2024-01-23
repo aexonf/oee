@@ -22,15 +22,17 @@ class OeeController extends Controller
             /*
                  rumus rata rata hasil semua oee di bagi jumlah oee
             */
-       
-        $averageOee = $data_oee_week->avg(function ($item) {
-            return ($item->availability->availability_ratio + $item->performance->performance_efficiency + $item->quality->rate_of_quality_product) / $item->count();
-        });
 
+            $averageOee = $data_oee_week->avg(function ($item) {
+                return ($item->availability->availability_ratio + $item->performance->performance_efficiency + $item->quality->rate_of_quality_product) / $item->count();
+            });
+
+
+            $roundedAverageOee = round($averageOee); 
 
             array_push($data_oee_weeks, [
                 "date" => $date->toDateString(),
-                "averageOee" => $averageOee,
+                "averageOee" => $roundedAverageOee,
                 "data" => $data_oee_week,
             ]);
         }

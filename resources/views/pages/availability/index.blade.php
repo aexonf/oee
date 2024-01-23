@@ -121,7 +121,7 @@
                                 <div class="col-6"></div>
                                 <div class="col-6 mt-4">
                                     <h5 class="text-danger">
-                                        * Target presentase availability ratio = <span class="text-black">90%</span>
+                                        * Target presentase availability ratio = <span class="text-black">85%</span>
                                     </h5>
                                 </div>
                                 <div class="col-12" id="availiability_ratio_value">
@@ -215,7 +215,7 @@
 
             const machineWorkingTimes = jamKerja + jamLembur;
             const loadingTime = machineWorkingTimes - plannedDowntime;
-            const downtime = breakdown + setupAdjustment + plannedDowntime;
+            const downtime = breakdown + setupAdjustment;
             const operationTime = (loadingTime - downtime) / loadingTime;
             const availabilityRatio = operationTime / loadingTime * 100;
 
@@ -231,7 +231,7 @@
             // Clear previous badges
             badgeContainer.innerHTML = '';
 
-            if (availabilityRatio >= 90) {
+            if (availabilityRatio >= 85) {
                 const badgeAman = document.createElement('h3');
                 badgeAman.className = 'badge badge-success';
                 badgeAman.innerText =
