@@ -64,43 +64,50 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('library/chart.js/dist/Chart.min.js') }}"></script>
-<script>
-    const dataArray = {!! $dataOee !!};
-    const data = dataArray.map(item => item);
+    <script src="{{ asset('library/chart.js/dist/Chart.min.js') }}"></script>
+    <script>
+        const dataArray = {!! $dataOee !!};
+        const data = dataArray.map(item => item);
 
-    const ctxData = document.getElementById('cart-data');
+        const ctxData = document.getElementById('cart-data');
 
-    new Chart(ctxData, {
-        type: 'bar',
-        data: {
-            labels: data.map(item => new Date(item.date).toLocaleDateString()),
-            datasets: [{
-                label: 'OEE',
-                data: data.map(item => {
-                    let value = item.averageOee;
+        new Chart(ctxData, {
+            type: 'bar',
+            data: {
+                labels: data.map(item => new Date(item.date).toLocaleDateString()),
+                datasets: [{
+                    label: 'OEE',
+                    data: data.flatMap(item => {
+                        return item.data.map(dataItem => {
+                            const availabilityRatio = dataItem.availability
+                                .availability_ratio;
+                            const performanceEfficiency = dataItem.performance
+                                .performance_efficiency;
+                            const rateOfQualityProduct = dataItem.quality
+                                .rate_of_quality_product;
 
-                    if (value < 0) {
-                        value = 0;
+                            const oee = Math.max(0, (availabilityRatio *
+                                    performanceEfficiency * rateOfQualityProduct) /
+                                10000);
+
+                            const roundedOee = Math.round(oee);
+
+                            return Math.min(roundedOee, 100);
+                        });
+                    }),
+                    backgroundColor: '#6777ef'
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
                     }
-
-                    value = Math.min(value, 100);
-
-                    return value;
-                }),
-                backgroundColor: '#6777ef'
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    max: 100,
                 }
             }
-        }
-    });
-</script>
+        });
+    </script>
 
     @if (session('success'))
         <script>

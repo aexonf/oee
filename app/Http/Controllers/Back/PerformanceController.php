@@ -55,7 +55,11 @@ class PerformanceController extends Controller
 
     public function remove($id)
     {
-        Performance::where("availability_id", $id)->first()->delete();
+        $performance = Performance::where("availability_id", $id)->first();
+
+        if ($performance) {
+            $performance->delete();
+        }
         return redirect()->back();
     }
 }

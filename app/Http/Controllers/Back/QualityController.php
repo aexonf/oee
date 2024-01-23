@@ -51,7 +51,12 @@ class QualityController extends Controller
 
     public function remove($id)
     {
-        Quality::where("performance_id", $id)->first()->delete();
+        // Quality::where("performance_id", $id)->first()->delete();
+        $quality =  Quality::where("performance_id", $id)->first();
+
+        if ($quality) {
+            $quality->delete();
+        }
         return redirect()->back();
     }
 }

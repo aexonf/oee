@@ -56,7 +56,12 @@ class AvailabilityController extends Controller
 
     public function delete($id)
     {
-        Availability::find($id)->delete();
+        // Availability::find($id)->delete();
+        $availability = Availability::find($id);
+
+        if ($availability) {
+            $availability->delete();
+        }
         return redirect()->back();
     }
 }

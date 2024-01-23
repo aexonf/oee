@@ -19,20 +19,10 @@ class OeeController extends Controller
 
             $data_oee_week = OverallEquipmentEffectiveness::with(["performance", "availability", "quality"])->where('created_at', $date->toDateString())->get();
 
-            /*
-                 rumus rata rata hasil semua oee di bagi jumlah oee
-            */
 
-            $averageOee = $data_oee_week->avg(function ($item) {
-                return ($item->availability->availability_ratio + $item->performance->performance_efficiency + $item->quality->rate_of_quality_product) / $item->count();
-            });
-
-
-            $roundedAverageOee = round($averageOee); 
 
             array_push($data_oee_weeks, [
                 "date" => $date->toDateString(),
-                "averageOee" => $roundedAverageOee,
                 "data" => $data_oee_week,
             ]);
         }
