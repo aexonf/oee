@@ -61,13 +61,13 @@
                                 <h4 class="col-12 mb-3">Total</h4>
 
                                 <label class="col-2 col-form-label d-flex justify-content-center align-items-center mb-4"
-                                for="availability_ratio">OEE</label>
+                                    for="availability_ratio">OEE</label>
                                 <input type="text" class="form-control col-3 mb-4" name="oee" id="oee"
                                     disabled>
                                 <p class="col-1 d-flex justify-content-center align-items-center mb-4">%</p>
 
                                 <h4 class="col-12 d-flex justify-content-start align-items-center mb-4 text-danger">
-                                    * Target presentase rate of quality = 85%
+                                    * Target presentase overall equipment effectiveness = 85%
                                 </h4>
                                 <h3 class="col-12" id="oee-badge">
                                 </h3>
@@ -131,11 +131,12 @@
                 const rateOfQualityProduct = parseFloat(inputRateOfQualityProduct.value) || 0;
 
                 // Calculate OEE
-                const oee = (availabilityRatio * performanceEfficiency * rateOfQualityProduct) / 10000;
-                console.log(parseFloat(oee))
+                let oee = (availabilityRatio * performanceEfficiency * rateOfQualityProduct) / 10000;
 
                 // Update the OEE input field
-                inputOee.value = oee;
+                oee = Math.min(100, Math.max(0, Math.round(oee)));
+
+                inputOee.value = oee.toFixed(0);
                 document.getElementById('button-simpan').removeAttribute('disabled');
 
                 const badgeContainer = document.getElementById('oee-badge');
@@ -143,7 +144,7 @@
                 // Clear previous badges
                 badgeContainer.innerHTML = '';
 
-                if (oee >= 90) {
+                if (oee >= 85) {
                     const badgeAman = document.createElement('h3');
                     badgeAman.className = 'badge badge-success';
                     badgeAman.innerText =

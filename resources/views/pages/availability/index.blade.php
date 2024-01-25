@@ -217,12 +217,14 @@
             const loadingTime = machineWorkingTimes - plannedDowntime;
             const downtime = breakdown + setupAdjustment;
             const operationTime = (loadingTime - downtime) / loadingTime;
-            const availabilityRatio = operationTime / loadingTime * 100;
+            let availabilityRatio = operationTime / loadingTime * 100;
 
             document.getElementById('total_machine_working_times').value = machineWorkingTimes;
             document.getElementById('loading_time').value = loadingTime;
             document.getElementById('operation_time').value = operationTime;
-            document.getElementById('availability_ratio').value = availabilityRatio;
+
+            availabilityRatio = Math.min(100, Math.max(0, Math.round(availabilityRatio)));
+            document.getElementById('availability_ratio').value = availabilityRatio.toFixed(0);
             document.getElementById('jam_total').value = machineWorkingTimes;
             document.getElementById('total_downtime').value = downtime;
 

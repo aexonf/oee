@@ -55,7 +55,7 @@
                                     id="rate_of_quality_product" readonly>
                                 <p class="col-1 d-flex justify-content-center align-items-center mb-4">%</p>
                                 <h4 class="col-12 d-flex justify-content-start align-items-center mb-4 text-danger">
-                                    * Target presentase rate of quality = 99%
+                                    * Target presentase rate of quality = 85%
                                 </h4>
                                 <h3 class="col-12" id="target_presentase_rate"></h3>
 
@@ -142,8 +142,10 @@
             document.getElementById("total").value = total;
 
             // Calculate rate of quality product
-            const rateOfQualityProduct = (processedAmount - defeatAmount) / processedAmount;
-            document.getElementById('rate_of_quality_product').value = rateOfQualityProduct.toFixed(5);
+            let rateOfQualityProduct = (processedAmount - defeatAmount) / processedAmount;
+            rateOfQualityProduct = Math.min(100, Math.max(0, Math.round(rateOfQualityProduct)));
+
+            document.getElementById('rate_of_quality_product').value = rateOfQualityProduct.toFixed(0);
 
 
             const badgeContainer = document.getElementById('target_presentase_rate');
@@ -151,7 +153,7 @@
             // Clear previous badges
             badgeContainer.innerHTML = '';
 
-            if (rateOfQualityProduct >= 99) {
+            if (rateOfQualityProduct >= 85) {
                 const badgeAman = document.createElement('h3');
                 badgeAman.className = 'badge badge-success';
                 badgeAman.innerText =

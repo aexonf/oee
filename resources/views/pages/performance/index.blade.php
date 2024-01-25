@@ -82,7 +82,7 @@
                                     for="operation_time">Operation Time</label>
                                 <input type="text" class="form-control col-3 mb-4 " name="operation_time"
                                     value="{{ $data->operation_time }}" id="operation_time" readonly>
-                                <p class="col-1 d-flex justify-content-center align-items-center mb-4">%</p>
+                                <p class="col-1 d-flex justify-content-center align-items-center mb-4">menit</p>
 
                                 <h5 class="col-12 mb-3">Total</h5>
                                 <label class="col-2 col-form-label d-flex justify-content-center align-items-center mb-4"
@@ -91,7 +91,7 @@
                                     id="performance_efficiency" readonly>
                                 <p class="col-1 d-flex justify-content-center align-items-center mb-4">%</p>
                                 <h3 class="col-12 d-flex justify-content-start align-items-center mb-4 text-danger">
-                                    * Target presentase availability ratio = 95%
+                                    * Target presentase performance ratio = 85%
                                 </h3>
                                 <h3 class="col-12" id="performance_efficiency_val">
                                 </h3>
@@ -232,15 +232,17 @@
             document.getElementById('total_ideal_cycle_time').value = idealCycleTimeTotal;
 
             // Calculate performance efficiency
-            const performanceEfficiency = (jumlahProduksi - idealCycleTimeTotal) / operationTime * 100;
-            document.getElementById('performance_efficiency').value = performanceEfficiency;
+            let performanceEfficiency = (jumlahProduksi - idealCycleTimeTotal) / operationTime * 100;
+            performanceEfficiency = Math.min(100, Math.max(0, Math.round(performanceEfficiency)));
+
+            document.getElementById('performance_efficiency').value = performanceEfficiency.toFixed(0);
 
             const badgeContainer = document.getElementById('performance_efficiency_val');
 
             // Clear previous badges
             badgeContainer.innerHTML = '';
 
-            if (performanceEfficiency >= 95) {
+            if (performanceEfficiency >= 85) {
                 const badgeAman = document.createElement('h3');
                 badgeAman.className = 'badge badge-success';
                 badgeAman.innerText =
