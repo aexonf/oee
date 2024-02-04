@@ -135,9 +135,9 @@
 
                                     <tr>
                                         @if (session('success') && session('performance'))
-                                        <?php $count = 1; ?>
-                                        <?php $availabilityData = session('performance'); ?>
-                                        <tr>
+                                            <?php $count = 1; ?>
+                                            <?php $availabilityData = session('performance'); ?>
+                                    <tr>
                                         <td>{{ $count++ }}</td>
                                         <td>{{ $availabilityData->jumlah_produksi }}</td>
                                         <td>{{ $availabilityData->availability->loading_time }}</td>
@@ -147,17 +147,17 @@
                                         <td>12</td>
                                         <td>{{ $availabilityData->availability->operation_time }}</td>
                                         <td>{{ $availabilityData->performance_efficiency }}</td>
-                                           <td class="d-flex">
-                                                <a href="{{ route('quality', $availabilityData->id) }}"
-                                                    class="btn btn-success ml-2" id="button-lanjut">Lanjut</a>
-                                                <form action="{{ route('performance.delete', $availabilityData->id) }}"
-                                                    method="post">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger ml-2"
-                                                        id="button-hapus-semua">Hapus</button>
-                                                </form>
-                                            </td>
+                                        <td class="d-flex">
+                                            <a href="{{ route('quality', $availabilityData->id) }}"
+                                                class="btn btn-success ml-2" id="button-lanjut">Lanjut</a>
+                                            <form action="{{ route('performance.delete', $availabilityData->id) }}"
+                                                method="post">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger ml-2"
+                                                    id="button-hapus-semua">Hapus</button>
+                                            </form>
+                                        </td>
                                     </tr>
                                     @endif
 
@@ -232,8 +232,9 @@
             document.getElementById('total_ideal_cycle_time').value = idealCycleTimeTotal;
 
             // Calculate performance efficiency
-            let performanceEfficiency = (jumlahProduksi - idealCycleTimeTotal) / operationTime * 100;
+            let performanceEfficiency = (jumlahProduksi - idealCycleTimeTotal) / operationTime / 10;
             performanceEfficiency = Math.min(100, Math.max(0, Math.round(performanceEfficiency)));
+            console.log(performanceEfficiency)
 
             document.getElementById('performance_efficiency').value = performanceEfficiency.toFixed(0);
 

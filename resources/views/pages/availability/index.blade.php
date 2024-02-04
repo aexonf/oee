@@ -216,7 +216,7 @@
             const machineWorkingTimes = jamKerja + jamLembur;
             const loadingTime = machineWorkingTimes - plannedDowntime;
             const downtime = breakdown + setupAdjustment;
-            const operationTime = (loadingTime - downtime) / loadingTime;
+            const operationTime = (loadingTime - downtime);
             let availabilityRatio = operationTime / loadingTime * 100;
 
             document.getElementById('total_machine_working_times').value = machineWorkingTimes;

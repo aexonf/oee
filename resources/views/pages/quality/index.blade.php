@@ -36,16 +36,17 @@
                             <div class="form-group mb-2 row">
                                 <label class="col-2 col-form-label d-flex justify-content-center align-items-center mb-4"
                                     for="processed_amount">Processed Amount</label>
-                                <input type="text" value="{{$data->processed_amount}}" readonly class="form-control col-3 mb-4" name="processed_amount" id="processed_amount">
+                                <input type="text" value="{{ $data->processed_amount }}" readonly
+                                    class="form-control col-3 mb-4" name="processed_amount" id="processed_amount">
                                 <p class="col-1 d-flex justify-content-center align-items-center mb-4">unit</p>
                                 <label class="col-2 col-form-label d-flex justify-content-center align-items-center mb-4"
                                     for="total">Total</label>
-                                <input type="text" class="form-control col-3 mb-4" name="total"
-                                    id="total" readonly>
+                                <input type="text" class="form-control col-3 mb-4" name="total" id="total"
+                                    readonly>
                                 <label class="col-2 col-form-label d-flex justify-content-center align-items-center mb-4"
                                     for="defeat_amount">Defeat Amount</label>
-                                <input type="text" class="form-control col-3 mb-4"
-                                    name="defeat_amount" id="defeat_amount" >
+                                <input type="text" class="form-control col-3 mb-4" name="defeat_amount"
+                                    id="defeat_amount">
                                 <p class="col-1 d-flex justify-content-center align-items-center mb-4">unit</p>
 
 
@@ -89,7 +90,7 @@
                                         <th>Action</th>
                                     </tr>
                                     @if (session('success') && session('quality'))
-                                    <?php $quality = session('quality'); ?>
+                                        <?php $quality = session('quality'); ?>
                                         <tr>
                                             <td>
                                                 {{ $quality->created_at }}
@@ -106,8 +107,7 @@
                                             <td class="d-flex">
                                                 <a href="{{ route('oee', $quality->id) }}" class="btn btn-success ml-2"
                                                     id="button-lanjut">Lanjut</a>
-                                                <form action="{{ route('quality.delete', $quality->id) }}"
-                                                    method="post">
+                                                <form action="{{ route('quality.delete', $quality->id) }}" method="post">
                                                     @csrf
                                                     @method('DELETE')
 
@@ -142,10 +142,10 @@
             document.getElementById("total").value = total;
 
             // Calculate rate of quality product
-            let rateOfQualityProduct = (processedAmount - defeatAmount) / processedAmount;
-            rateOfQualityProduct = Math.min(100, Math.max(0, Math.round(rateOfQualityProduct)));
+            let rateOfQualityProduct = (processedAmount - defeatAmount) / processedAmount * 100;
+            rateOfQualityProduct = rateOfQualityProduct;
 
-            document.getElementById('rate_of_quality_product').value = rateOfQualityProduct.toFixed(0);
+            document.getElementById('rate_of_quality_product').value = Math.trunc(rateOfQualityProduct);
 
 
             const badgeContainer = document.getElementById('target_presentase_rate');
