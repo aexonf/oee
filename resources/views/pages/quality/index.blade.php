@@ -55,10 +55,10 @@
                                 <input type="text" class="form-control col-3 mb-4" name="rate_of_quality_product"
                                     id="rate_of_quality_product" readonly>
                                 <p class="col-1 d-flex justify-content-center align-items-center mb-4">%</p>
-                                <h4 class="col-12 d-flex justify-content-start align-items-center mb-4 text-danger">
+                                <!-- <h4 class="col-12 d-flex justify-content-start align-items-center mb-4 text-danger">
                                     * Target presentase rate of quality = 85%
                                 </h4>
-                                <h3 class="col-12" id="target_presentase_rate"></h3>
+                                <h3 class="col-12" id="target_presentase_rate"></h3> -->
 
                             </div>
                             <div class="mt-5 d-flex justify-content-between">
@@ -148,26 +148,26 @@
             document.getElementById('rate_of_quality_product').value = Math.trunc(rateOfQualityProduct);
 
 
-            const badgeContainer = document.getElementById('target_presentase_rate');
+            // const badgeContainer = document.getElementById('target_presentase_rate');
 
-            // Clear previous badges
-            badgeContainer.innerHTML = '';
+            // // Clear previous badges
+            // badgeContainer.innerHTML = '';
 
-            if (rateOfQualityProduct >= 85) {
-                const badgeAman = document.createElement('h3');
-                badgeAman.className = 'badge badge-success';
-                badgeAman.innerText =
-                    'Pengguna waktu yang tersedia untuk kegiatan operasi mesin alat sudah mencukupi (Tinggi)';
+            // if (rateOfQualityProduct >= 85) {
+            //     const badgeAman = document.createElement('h3');
+            //     badgeAman.className = 'badge badge-success';
+            //     badgeAman.innerText =
+            //         'Pengguna waktu yang tersedia untuk kegiatan operasi mesin alat sudah mencukupi (Tinggi)';
 
-                badgeContainer.appendChild(badgeAman);
-            } else {
-                const badgeKurang = document.createElement('h3');
-                badgeKurang.className = 'badge badge-danger';
-                badgeKurang.innerText =
-                    'Pengguna waktu yang tersedia untuk kegiatan operasi mesin alat belum mencukupi (Kurang)';
+            //     badgeContainer.appendChild(badgeAman);
+            // } else {
+            //     const badgeKurang = document.createElement('h3');
+            //     badgeKurang.className = 'badge badge-danger';
+            //     badgeKurang.innerText =
+            //         'Pengguna waktu yang tersedia untuk kegiatan operasi mesin alat belum mencukupi (Kurang)';
 
-                badgeContainer.appendChild(badgeKurang);
-            }
+            //     badgeContainer.appendChild(badgeKurang);
+            // }
             // Enable the buttons
             document.getElementById('button-simpan').removeAttribute('disabled');
         }

@@ -66,11 +66,11 @@
                                     disabled>
                                 <p class="col-1 d-flex justify-content-center align-items-center mb-4">%</p>
 
-                                <h4 class="col-12 d-flex justify-content-start align-items-center mb-4 text-danger">
+                                <!-- <h4 class="col-12 d-flex justify-content-start align-items-center mb-4 text-danger">
                                     * Target presentase overall equipment effectiveness = 85%
                                 </h4>
                                 <h3 class="col-12" id="oee-badge">
-                                </h3>
+                                </h3> -->
                             </div>
 
 
@@ -139,26 +139,26 @@
                 inputOee.value = oee.toFixed(0);
                 document.getElementById('button-simpan').removeAttribute('disabled');
 
-                const badgeContainer = document.getElementById('oee-badge');
+                // const badgeContainer = document.getElementById('oee-badge');
 
-                // Clear previous badges
-                badgeContainer.innerHTML = '';
+                // // Clear previous badges
+                // badgeContainer.innerHTML = '';
 
-                if (oee >= 85) {
-                    const badgeAman = document.createElement('h3');
-                    badgeAman.className = 'badge badge-success';
-                    badgeAman.innerText =
-                        'Kemampuan alat / mesin dalam menghasilkan produk sesuai standar sudah cukup baik (Tinggi)';
+                // if (oee >= 85) {
+                //     const badgeAman = document.createElement('h3');
+                //     badgeAman.className = 'badge badge-success';
+                //     badgeAman.innerText =
+                //         'Kemampuan alat / mesin dalam menghasilkan produk sesuai standar sudah cukup baik (Tinggi)';
 
-                    badgeContainer.appendChild(badgeAman);
-                } else {
-                    const badgeKurang = document.createElement('h3');
-                    badgeKurang.className = 'badge badge-danger';
-                    badgeKurang.innerText =
-                        'Kemampuan alat / mesin dalam menghasilkan produk sesuai standar masih perlu diperbaiki (Rendah)';
+                //     badgeContainer.appendChild(badgeAman);
+                // } else {
+                //     const badgeKurang = document.createElement('h3');
+                //     badgeKurang.className = 'badge badge-danger';
+                //     badgeKurang.innerText =
+                //         'Kemampuan alat / mesin dalam menghasilkan produk sesuai standar masih perlu diperbaiki (Rendah)';
 
-                    badgeContainer.appendChild(badgeKurang);
-                }
+                //     badgeContainer.appendChild(badgeKurang);
+                // }
             });
         });
     </script>
