@@ -20,6 +20,14 @@ class OeeController extends Controller
         ]);
     }
 
+    public function detail($id){
+        $data = Quality::with(["performance.availability", "performance.quality"])->where("id", $id)->first();
+        return view("pages.oee.detail", [
+            "data" => $data,
+        ]);
+    }
+
+
     public function create($qid, $pid, $aid){
 
         $create  = OverallEquipmentEffectiveness::create([

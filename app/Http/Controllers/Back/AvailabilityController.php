@@ -14,6 +14,37 @@ class AvailabilityController extends Controller
         return view('pages.availability.index');
     }
 
+    public function detail($id)
+    {
+        return view('pages.availability.detail', [
+            "availabilityData" => Availability::find($id),
+            "id" => $id
+        ]);
+    }
+
+    public function update($id, Request $request)
+    {
+        $update = Availability::find($id);
+        $update->update([
+            "jam_kerja" => $request->jam_kerja,
+            "jam_lembur" => $request->jam_lembur,
+            "planned_downtime" => $request->planned_downtime,
+            "loading_time" => $request->loading_time,
+            "breakdown" => $request->breakdown,
+            "setup_adjustment" => $request->setup_adjustment,
+            "operation_time" => $request->operation_time,
+            "availability_ratio" => $request->availability_ratio,
+        ]);
+
+
+        if ($update) {
+            return redirect()->back()->with(["success" => "Berhasil update availability"]);
+        }
+
+        return redirect()->back()->with("error", "Gagal update availability");
+
+    }
+
     /**
      * Menangani permintaan pembuatan data Availability.
      *

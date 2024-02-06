@@ -19,6 +19,34 @@ class PerformanceController extends Controller
         ]);
     }
 
+    public function detail($id){
+        return view('pages.performance.detail', [
+            "data" => Performance::where("availability_id",$id)->first(),
+            "avaibility" => Availability::find($id),
+            "id" => $id,
+        ]);
+    }
+
+
+    public function update($id, Request $request){
+
+        $update = Performance::find($id);
+        $update->update([
+            "cycle_time" => $request->cycle_time,
+            "jumlah_produksi" => $request->jumlah_produksi,
+            "processed_amount" => $request->processed_amount,
+            "performance_efficiency" => $request->performance_efficiency,
+        ]);
+
+        if ($update) {
+            return redirect()->back()->with(["success" => "Berhasil update Performance"]);
+        }
+
+        return redirect()->back()->with("error", "Gagal update Performance");
+
+    }
+
+
     /**
      * Menangani permintaan pembuatan data Performance berdasarkan Availability.
      *

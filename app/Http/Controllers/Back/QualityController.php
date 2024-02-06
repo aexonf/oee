@@ -16,6 +16,26 @@ class QualityController extends Controller
         return view('pages.quality.index', ["data" => Performance::find($id), "id" => $id]);
     }
 
+    public function detail($id)
+    {
+        return view('pages.quality.detail', ["data" => Performance::find($id), "id" => $id, "quality" => Quality::where("performance_id", $id)->first()]);
+    }
+
+    public function update($id, Request $request) {
+        $update = Quality::find($id);
+        $update->update([
+            "defeat_amount" => $request->defeat_amount,
+            "rate_of_quality_product" => $request->rate_of_quality_product,
+        ]);
+
+        if ($update) {
+            return redirect()->back()->with(["success" => "Berhasil update Quality"]);
+        }
+
+        return redirect()->back()->with("error", "Gagal update Quality");
+
+    }
+
 
     /**
      * Menangani permintaan pembuatan data Quality berdasarkan Performance.

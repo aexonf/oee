@@ -3,7 +3,7 @@
 @section('title', 'Admin - Dashboard')
 
 @push('style')
-    <!-- CSS Libraries -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 @endpush
 
 @section('main')
@@ -39,6 +39,7 @@
                                     <th scope="col">Performance Efficiency</th>
                                     <th scope="col">Rate Of Quality Product</th>
                                     <th scope="col">Overall Equipment Effectiveness</th>
+                                    <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -50,6 +51,7 @@
                                         <td>{{ $item->quality->rate_of_quality_product }}</td>
                                         <td>{{ ($item->availability->availability_ratio * $item->performance->performance_efficiency * $item->quality->rate_of_quality_product) / 10000 }}
                                         </td>
+                                        <td><a href="{{route('availability.detail', $item->availability->id)}}"><i class="bi bi-eye-fill"></i></a></td>
                                     </tr>
                                 @endforeach
                             </tbody>
