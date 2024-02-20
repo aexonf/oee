@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\OeeExport;
 use App\Models\Availability;
 use App\Models\OverallEquipmentEffectiveness;
 use App\Models\Performance;
@@ -10,6 +11,7 @@ use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Maatwebsite\Excel\Facades\Excel;
 
 class OeeController extends Controller
 {
@@ -81,4 +83,10 @@ class OeeController extends Controller
             Session::flash('error', 'Gagal menghapus data. Data tidak ditemukan.');
         }
     }
+
+    public function export()
+    {
+        return Excel::download(new OeeExport, 'oee.xlsx');
+    }
+
 }

@@ -33,9 +33,16 @@
                             <div class="form-group mr-3 mb-0">
                                 <input type="date" class="form-control" id="end_date" name="to">
                             </div>
-                            <button type="button" class="btn btn-icon icon-left btn-info mr-2 mb-2"
-                            data-toggle="collapse" data-target="#section-filter"><i class="fas fa-filter"></i>
-                            Filter</button>                            <a href="#" class="btn btn-success" id="export_btn">Export</a>
+                            <button type="button" class="btn btn-icon icon-left btn-info mr-2" data-toggle="collapse"
+                                data-target="#section-filter"><i class="fas fa-filter"></i>
+                                Filter</button>
+                            <form action="{{ route('index.export') }}" method="get">
+                                @csrf
+                                @method('GET')
+                                <button type="submit" class="btn btn-icon icon-left btn-primary mr-2 mt-3"><i
+                                        class="fas fa-download"></i>
+                                    Export</button>
+                            </form>
                             <a href="{{ route('availability') }}" class="btn btn-primary btn-lg ml-3">Buat</a>
                         </div>
                     </div>
@@ -133,23 +140,23 @@
     @endif
 
     @push('scripts')
-    <!-- JS Libraries -->
-    <script src="{{ asset('library/datatables/media/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('library/datatables/media/js/dataTables.min.js') }}"></script>
-    <script src="{{ asset('library/jquery-ui-dist/jquery-ui.min.js') }}"></script>
-    <script src="{{ asset('js/page/modules-datatables.js') }}"></script>
-    <script src="{{ asset('library/select2/dist/js/select2.full.min.js') }}"></script>
+        <!-- JS Libraries -->
+        <script src="{{ asset('library/datatables/media/js/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('library/datatables/media/js/dataTables.min.js') }}"></script>
+        <script src="{{ asset('library/jquery-ui-dist/jquery-ui.min.js') }}"></script>
+        <script src="{{ asset('js/page/modules-datatables.js') }}"></script>
+        <script src="{{ asset('library/select2/dist/js/select2.full.min.js') }}"></script>
 
-    <script>
-        $(document).ready(function() {
-            $('.select2').select2();
-        });
+        <script>
+            $(document).ready(function() {
+                $('.select2').select2();
+            });
 
-        const handleChangeFilter = (e) => {
-            const currentURL = new URL(window.location.href);
-            currentURL.searchParams.set(e.name, e.value);
-            window.history.pushState({}, '', currentURL);
-            location.reload();
-        }
-    </script>
-@endpush
+            const handleChangeFilter = (e) => {
+                const currentURL = new URL(window.location.href);
+                currentURL.searchParams.set(e.name, e.value);
+                window.history.pushState({}, '', currentURL);
+                location.reload();
+            }
+        </script>
+    @endpush
