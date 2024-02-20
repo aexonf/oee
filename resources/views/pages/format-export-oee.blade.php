@@ -5,6 +5,7 @@
             <th>Performance</th>
             <th>Quality</th>
             <th>Availability</th>
+            <th>Total</th>
 
         </tr>
     </thead>
@@ -15,6 +16,7 @@
                 <td>{{ $value->availability->availability_ratio }}</td>
                 <td>{{ $value->performance->performance_efficiency }}</td>
                 <td>{{ $value->quality->rate_of_quality_product }}</td>
+                <td>{{ $value->availability->availability_ratio +  $value->performance->performance_efficiency + $value->quality->rate_of_quality_product }}</td>
             </tr>
         @endforeach
     </tbody>

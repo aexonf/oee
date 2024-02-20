@@ -54,6 +54,7 @@ Route::prefix('/')->group(function() {
 
     Route::controller(\App\Http\Controllers\OeeController::class)->group(function() {
         Route::get("/", "index")->name("index");
+        Route::delete("/delete/{id}", "deleteOee")->name("index.delete");
         Route::get("/export", "export")->name("index.export");
     });
 

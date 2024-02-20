@@ -28,14 +28,13 @@
                         <h3>OEE (Overall Equipment Effectiveness)</h3>
                         <div class="d-flex align-items-center">
                             <div class="form-group mr-3 mb-0">
-                                <input type="date" class="form-control" id="start_date" name="from">
+                                <input type="date" class="form-control" id="start_date" name="from"
+                                    onchange="handleChangeFilter(this)">
                             </div>
                             <div class="form-group mr-3 mb-0">
-                                <input type="date" class="form-control" id="end_date" name="to">
+                                <input type="date" class="form-control" id="end_date" name="to"
+                                    onchange="handleChangeFilter(this)">
                             </div>
-                            <button type="button" class="btn btn-icon icon-left btn-info mr-2" data-toggle="collapse"
-                                data-target="#section-filter"><i class="fas fa-filter"></i>
-                                Filter</button>
                             <form action="{{ route('index.export') }}" method="get">
                                 @csrf
                                 @method('GET')
@@ -70,8 +69,20 @@
                                     <td>{{ $item->quality->rate_of_quality_product }}</td>
                                     <td>{{ ($item->availability->availability_ratio * $item->performance->performance_efficiency * $item->quality->rate_of_quality_product) / 10000 }}
                                     </td>
-                                    <td><a href="{{ route('availability.detail', $item->availability->id) }}"><i
-                                                class="bi bi-eye-fill"></i></a></td>
+                                    <td>
+                                        <a href="{{ route('availability.detail', $item->availability->id) }}"
+                                            class="btn btn-icon icon-left btn-primary mb-2 mt-1">
+                                            <i class="bi bi-eye-fill"></i>
+                                        </a>
+                                        <form action="{{ route('index.delete', $item->id) }}" method="POST">
+                                            @method('DELETE')
+                                            @csrf
+                                            <button type="submit" class="btn btn-icon icon-left btn-primary">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+
                                 </tr>
                             @endforeach
                         </tbody>
@@ -88,50 +99,57 @@
 @push('scripts')
     <script src="{{ asset('library/chart.js/dist/Chart.min.js') }}"></script>
     <script>
-        const dataArray = {!! $dataOee !!};
-        const data = dataArray.map(item => item);
+        document.addEventListener('DOMContentLoaded', function() {
+            const dataArray = {!! $dataOee !!};
+            const data = dataArray.map(item => item);
 
-        const ctxData = document.getElementById('cart-data');
+            const ctxData = document.getElementById('cart-data');
 
-        new Chart(ctxData, {
-            type: 'bar',
-            data: {
-                labels: data.map(item => new Date(item.date).toLocaleDateString()),
-                datasets: [{
-                    label: 'OEE',
-                    data: data.map(item => {
-                        const availabilityRatio = item.data.map(innerItem => innerItem.availability
-                            .availability_ratio);
-                        const performanceEfficiency = item.data.map(innerItem => innerItem
-                            .performance.performance_efficiency);
-                        const rateOfQualityProduct = item.data.map(innerItem => innerItem.quality
-                            .rate_of_quality_product);
+            if (ctxData) {
+                new Chart(ctxData, {
+                    type: 'bar',
+                    data: {
+                        labels: data.map(item => new Date(item.date).toLocaleDateString()),
+                        datasets: [{
+                            label: 'OEE',
+                            data: data.map(item => {
+                                const availabilityRatio = item.data.map(innerItem =>
+                                    innerItem.availability.availability_ratio);
+                                const performanceEfficiency = item.data.map(innerItem =>
+                                    innerItem.performance.performance_efficiency);
+                                const rateOfQualityProduct = item.data.map(innerItem =>
+                                    innerItem.quality.rate_of_quality_product);
 
-                        const oeeValues = availabilityRatio.map((ratio, index) => {
-                            let oee = Math.abs((ratio * performanceEfficiency[index] *
-                                rateOfQualityProduct[index]) / 10000);
-                            oee = Math.max(0, Math.min(100, oee));
-                            return oee;
-                        });
+                                const oeeValues = availabilityRatio.map((ratio, index) => {
+                                    let oee = Math.abs((ratio *
+                                            performanceEfficiency[index] *
+                                            rateOfQualityProduct[index]) /
+                                        10000);
+                                    oee = Math.max(0, Math.min(100, oee));
+                                    return oee;
+                                });
 
-                        const averageOEE = oeeValues.reduce((acc, value) => acc + value, 0) /
-                            oeeValues.length;
+                                const averageOEE = oeeValues.reduce((acc, value) => acc +
+                                    value, 0) / oeeValues.length;
 
-                        return averageOEE;
-                    }),
-                    backgroundColor: '#6777ef'
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: 100,
+                                return averageOEE;
+                            }),
+                            backgroundColor: '#6777ef'
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100,
+                            }
+                        }
                     }
-                }
+                });
             }
         });
     </script>
+
 
     @if (session('success'))
         <script>

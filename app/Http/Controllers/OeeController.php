@@ -20,18 +20,19 @@ class OeeController extends Controller
     {
         $data_oee_weeks = [];
 
-        $from = $request->query("from");
-        $to = $request->query("to");
+        $from = $request->query("from", Carbon::now()->startOfWeek()->format('Y-m-d'));
+        $to = $request->query("to", Carbon::now()->endOfWeek()->format('Y-m-d'));
 
         $oeeQuery = OverallEquipmentEffectiveness::with(["performance", "availability", "quality"]);
 
-        if ($request->has('from') && $request->has('to')) {
-            $oeeQuery->whereBetween('created_at', [$from, $to]);
-        }
+        $datas = null;
+
 
         if ($request->has("from") && $request->has("to")) {
-            $data_oee_week = $oeeQuery->whereBetween('created_at', [$from, $to])->get();
-            foreach (CarbonPeriod::create(Carbon::parse($from)->startOfWeek(), Carbon::parse($to)->endOfWeek()) as $date) {
+            foreach (CarbonPeriod::create(Carbon::parse($from), Carbon::parse($to)) as $date) {
+                $data_oee_week =  OverallEquipmentEffectiveness::with(["performance", "availability", "quality"])->where('created_at', $date->toDateString())->get();
+                $datas = $oeeQuery->whereBetween('created_at', [$from, $to])->get();
+
                 array_push($data_oee_weeks, [
                     "date" => $date->toDateString(),
                     "data" => $data_oee_week,
@@ -39,7 +40,9 @@ class OeeController extends Controller
             }
         } else {
             foreach (CarbonPeriod::create(Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()) as $date) {
-                $data_oee_week = $oeeQuery->whereDate('created_at', $date->toDateString())->get();
+                $data_oee_week =  OverallEquipmentEffectiveness::with(["performance", "availability", "quality"])->where('created_at', $date->toDateString())->get();
+                $datas = $oeeQuery->where('created_at', $date->toDateString())->get();
+
                 array_push($data_oee_weeks, [
                     "date" => $date->toDateString(),
                     "data" => $data_oee_week,
@@ -52,9 +55,10 @@ class OeeController extends Controller
 
         return view("pages.index", [
             "dataOee" => $data_oee_weeks,
-            "data" => $oeeQuery->get()
+            "data" => $datas ?? $oeeQuery->get()
         ]);
     }
+
 
 
     public function deleteOee($id)
@@ -73,14 +77,18 @@ class OeeController extends Controller
 
                 if ($avaibilityDeleted && $performanceDeleted && $qualityDeleted) {
                     Session::flash('success', 'Data berhasil dihapus.');
+                    return redirect()->back();
                 } else {
                     Session::flash('error', 'Gagal menghapus data. Terjadi kesalahan dalam menghapus.');
+                    return redirect()->back();
                 }
             } else {
                 Session::flash('error', 'Gagal menghapus data. Salah satu data terkait tidak ditemukan.');
+                return redirect()->back();
             }
         } else {
             Session::flash('error', 'Gagal menghapus data. Data tidak ditemukan.');
+            return redirect()->back();
         }
     }
 
@@ -88,5 +96,4 @@ class OeeController extends Controller
     {
         return Excel::download(new OeeExport, 'oee.xlsx');
     }
-
 }
