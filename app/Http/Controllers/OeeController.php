@@ -41,7 +41,7 @@ class OeeController extends Controller
         } else {
             foreach (CarbonPeriod::create(Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()) as $date) {
                 $data_oee_week =  OverallEquipmentEffectiveness::with(["performance", "availability", "quality"])->where('created_at', $date->toDateString())->get();
-                $datas = $oeeQuery->where('created_at', $date->toDateString())->get();
+                $datas[] = $oeeQuery->where('created_at', $date->toDateString())->get();
 
                 array_push($data_oee_weeks, [
                     "date" => $date->toDateString(),
@@ -55,7 +55,8 @@ class OeeController extends Controller
 
         return view("pages.index", [
             "dataOee" => $data_oee_weeks,
-            "data" => $datas ?? $oeeQuery->get()
+            "data" => $datas ?? $oeeQuery->get(),
+            "request" => $request
         ]);
     }
 

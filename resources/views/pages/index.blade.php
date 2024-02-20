@@ -29,11 +29,11 @@
                         <div class="d-flex align-items-center">
                             <div class="form-group mr-3 mb-0">
                                 <input type="date" class="form-control" id="start_date" name="from"
-                                    onchange="handleChangeFilter(this)">
+                                    onchange="handleChangeFilter(this)" value="{{ $request->from }}">
                             </div>
                             <div class="form-group mr-3 mb-0">
                                 <input type="date" class="form-control" id="end_date" name="to"
-                                    onchange="handleChangeFilter(this)">
+                                    onchange="handleChangeFilter(this)" value="{{ $request->to }}">
                             </div>
                             <form action="{{ route('index.export') }}" method="get">
                                 @csrf
@@ -45,10 +45,13 @@
                             <a href="{{ route('availability') }}" class="btn btn-primary btn-lg ml-3">Buat</a>
                         </div>
                     </div>
-
-
                 </div>
                 <div class="card-body">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Total OEE</span>
+                        <input type="text" class="form-control" readonly id="totalOee">
+                        <span class="input-group-text">%</span>
+                    </div>
                     <table class="table">
                         <thead>
                             <tr>
@@ -61,37 +64,37 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($data as $index => $item)
-                                <tr>
-                                    <th scope="row">{{ $index + 1 }}</th>
-                                    <td>{{ $item->availability->availability_ratio }}</td>
-                                    <td>{{ $item->performance->performance_efficiency }}</td>
-                                    <td>{{ $item->quality->rate_of_quality_product }}</td>
-                                    <td>{{ ($item->availability->availability_ratio * $item->performance->performance_efficiency * $item->quality->rate_of_quality_product) / 10000 }}
-                                    </td>
-                                    <td>
-                                        <a href="{{ route('availability.detail', $item->availability->id) }}"
-                                            class="btn btn-icon icon-left btn-primary mb-2 mt-1">
-                                            <i class="bi bi-eye-fill"></i>
-                                        </a>
-                                        <form action="{{ route('index.delete', $item->id) }}" method="POST">
-                                            @method('DELETE')
-                                            @csrf
-                                            <button type="submit" class="btn btn-icon icon-left btn-primary">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </form>
-                                    </td>
+                            @foreach ($dataOee as $data)
+                                @foreach ($data['data'] as $index => $item)
+                                    <tr>
+                                        <th scope="row">{{ $index + 1 }}</th>
+                                        <td>{{ $item->availability->availability_ratio }}</td>
+                                        <td>{{ $item->performance->performance_efficiency }}</td>
+                                        <td>{{ $item->quality->rate_of_quality_product }}</td>
+                                        <td>{{ ($item->availability->availability_ratio * $item->performance->performance_efficiency * $item->quality->rate_of_quality_product) / 10000 }}
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('availability.detail', $item->availability->id) }}"
+                                                class="btn btn-icon icon-left btn-primary mb-2 mt-2">
+                                                <i class="bi bi-eye-fill"></i>
+                                            </a>
+                                            <form action="{{ route('index.delete', $item->id) }}" method="POST">
+                                                @method('DELETE')
+                                                @csrf
+                                                <button type="submit" class="btn btn-icon icon-left btn-danger">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </form>
+                                        </td>
 
-                                </tr>
+                                    </tr>
+                                @endforeach
                             @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
     </div>
-
-
     </section>
     </div>
 @endsection
@@ -104,6 +107,8 @@
             const data = dataArray.map(item => item);
 
             const ctxData = document.getElementById('cart-data');
+
+            let arrays = [];
 
             if (ctxData) {
                 new Chart(ctxData, {
@@ -129,8 +134,11 @@
                                     return oee;
                                 });
 
+
                                 const averageOEE = oeeValues.reduce((acc, value) => acc +
                                     value, 0) / oeeValues.length;
+
+                                arrays.push(averageOEE);
 
                                 return averageOEE;
                             }),
@@ -147,6 +155,24 @@
                     }
                 });
             }
+
+            // Menghitung total oee nya
+            /*
+            1. di js nya di bagian result data nya di push buat var baru
+            2. hitung
+            */
+            const nonNaNData = arrays.filter(value => !isNaN(value));
+            const numberOfNonNaN = nonNaNData.length;
+            let totalOee = 0;
+            arrays.forEach(item => {
+                if (!isNaN(item)) {
+                    totalOee += item / numberOfNonNaN;
+                }
+            });
+
+            console.log("Total OEE:", totalOee);
+            document.getElementById("totalOee").value = totalOee;
+
         });
     </script>
 
