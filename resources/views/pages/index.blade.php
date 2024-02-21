@@ -55,6 +55,7 @@
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
+                                    <th scope="col">Tanggal</th>
                                     <th scope="col">Availability Ratio</th>
                                     <th scope="col">Performance Efficiency</th>
                                     <th scope="col">Rate Of Quality Product</th>
@@ -67,6 +68,7 @@
                                     @foreach ($data['data'] as $index => $item)
                                         <tr>
                                             <th scope="row">{{ $index + 1 }}</th>
+                                            <td>{{ $item->created_at->format('Y-m-d') }}</td>
                                             <td>{{ $item->availability->availability_ratio }}</td>
                                             <td>{{ $item->performance->performance_efficiency }}</td>
                                             <td>{{ $item->quality->rate_of_quality_product }}</td>

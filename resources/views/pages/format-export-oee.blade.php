@@ -12,7 +12,7 @@
     <tbody>
         @foreach ($data as $value)
             <tr>
-                <td>{{ $value->created_at }}</td>
+                <td>{{ $value->created_at->format('Y-m-d') }}</td>
                 <td>{{ $value->availability->availability_ratio }}</td>
                 <td>{{ $value->performance->performance_efficiency }}</td>
                 <td>{{ $value->quality->rate_of_quality_product }}</td>
