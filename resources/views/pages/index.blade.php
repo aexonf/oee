@@ -70,7 +70,7 @@
                                             <td>{{ $item->availability->availability_ratio }}</td>
                                             <td>{{ $item->performance->performance_efficiency }}</td>
                                             <td>{{ $item->quality->rate_of_quality_product }}</td>
-                                            <td>{{ ($item->availability->availability_ratio * $item->performance->performance_efficiency * $item->quality->rate_of_quality_product) / 10000 }}
+                                            <td>{{ floor(($item->availability->availability_ratio * $item->performance->performance_efficiency * $item->quality->rate_of_quality_product) / 10000) }}
                                             </td>
                                             <td>
                                                 <a href="{{ route('availability.detail', $item->availability->id) }}"
