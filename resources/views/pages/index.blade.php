@@ -168,9 +168,8 @@
                     totalOee += item / numberOfNonNaN;
                 }
             });
-
-            console.log("Total OEE:", totalOee);
-            document.getElementById("totalOee").value = totalOee;
+            totalOee = Math.ceil(totalOee);
+            document.getElementById("totalOee").textContent = totalOee;
 
         });
     </script>
