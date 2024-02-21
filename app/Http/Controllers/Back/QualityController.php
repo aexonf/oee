@@ -21,7 +21,8 @@ class QualityController extends Controller
         return view('pages.quality.detail', ["data" => Performance::find($id), "id" => $id, "quality" => Quality::where("performance_id", $id)->first()]);
     }
 
-    public function update($id, Request $request) {
+    public function update($id, Request $request)
+    {
         $update = Quality::find($id);
         $update->update([
             "defeat_amount" => $request->defeat_amount,
@@ -33,7 +34,6 @@ class QualityController extends Controller
         }
 
         return redirect()->back()->with("error", "Gagal update Quality");
-
     }
 
 

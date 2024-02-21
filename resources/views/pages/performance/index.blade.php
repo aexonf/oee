@@ -91,10 +91,10 @@
                                     id="performance_efficiency" readonly>
                                 <p class="col-1 d-flex justify-content-center align-items-center mb-4">%</p>
                                 <!-- <h3 class="col-12 d-flex justify-content-start align-items-center mb-4 text-danger">
-                                    * Target presentase performance ratio = 85%
-                                </h3>
-                                <h3 class="col-12" id="performance_efficiency_val">
-                                </h3> -->
+                                            * Target presentase performance ratio = 85%
+                                        </h3>
+                                        <h3 class="col-12" id="performance_efficiency_val">
+                                        </h3> -->
 
                             </div>
                             <div class="mt-5 d-flex justify-content-between">
@@ -144,7 +144,8 @@
                                         <td>{{ $availabilityData->processed_amount }}</td>
                                         <td>{{ $availabilityData->cycle_time }}</td>
                                         <td>{{ $availabilityData->availability->jam_kerja }}</td>
-                                        <td>12</td>
+                                        <td>{{ $availabilityData->cycle_time * $availabilityData->availability->jam_kerja }}
+                                        </td>
                                         <td>{{ $availabilityData->availability->operation_time }}</td>
                                         <td>{{ $availabilityData->performance_efficiency }}</td>
                                         <td class="d-flex">

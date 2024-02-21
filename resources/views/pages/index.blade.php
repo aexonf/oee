@@ -26,67 +26,33 @@
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h3>OEE (Overall Equipment Effectiveness)</h3>
-                        <div class="d-flex align-items-center">
-                            <div class="form-group mr-3 mb-0">
-                                <input type="date" class="form-control" id="start_date" name="from"
-                                    onchange="handleChangeFilter(this)" value="{{ $request->from }}">
-                            </div>
-                            <div class="form-group mr-3 mb-0">
-                                <input type="date" class="form-control" id="end_date" name="to"
-                                    onchange="handleChangeFilter(this)" value="{{ $request->to }}">
-                            </div>
-                            <form action="{{ route('index.export') }}" method="get">
-                                @csrf
-                                @method('GET')
-                                <button type="submit" class="btn btn-icon icon-left btn-primary mr-2 mt-3"><i
-                                        class="fas fa-download"></i>
-                                    Export</button>
-                            </form>
-                            <a href="{{ route('availability') }}" class="btn btn-primary btn-lg ml-3">Buat</a>
-                        </div>
+                        <a href="{{ route('availability') }}" class="btn btn-primary btn-lg">
+                            Buat
+                        </a>
                     </div>
-                </div>
-                <div class="card-body">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">Total OEE</span>
-                        <input type="text" class="form-control" readonly id="totalOee">
-                        <span class="input-group-text">%</span>
-                    </div>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Availability Ratio</th>
-                                <th scope="col">Performance Efficiency</th>
-                                <th scope="col">Rate Of Quality Product</th>
-                                <th scope="col">Overall Equipment Effectiveness</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($dataOee as $data)
-                                @foreach ($data['data'] as $index => $item)
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Availability Ratio</th>
+                                    <th scope="col">Performance Efficiency</th>
+                                    <th scope="col">Rate Of Quality Product</th>
+                                    <th scope="col">Overall Equipment Effectiveness</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($data as $index => $item)
                                     <tr>
                                         <th scope="row">{{ $index + 1 }}</th>
+                                        <td>{{ $item->updated_at }}</td>
                                         <td>{{ $item->availability->availability_ratio }}</td>
                                         <td>{{ $item->performance->performance_efficiency }}</td>
                                         <td>{{ $item->quality->rate_of_quality_product }}</td>
-                                        <td>{{ ($item->availability->availability_ratio * $item->performance->performance_efficiency * $item->quality->rate_of_quality_product) / 10000 }}
+                                        <td>{{ round(($item->availability->availability_ratio * $item->performance->performance_efficiency * $item->quality->rate_of_quality_product) / 10000, 0) }}
                                         </td>
-                                        <td>
-                                            <a href="{{ route('availability.detail', $item->availability->id) }}"
-                                                class="btn btn-icon icon-left btn-primary mb-2 mt-2">
-                                                <i class="bi bi-eye-fill"></i>
-                                            </a>
-                                            <form action="{{ route('index.delete', $item->id) }}" method="POST">
-                                                @method('DELETE')
-                                                @csrf
-                                                <button type="submit" class="btn btn-icon icon-left btn-danger">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
-                                            </form>
-                                        </td>
-
+                                        <td><a href="{{route('availability.detail', $item->availability->id)}}"><i class="bi bi-eye-fill"></i></a></td>
                                     </tr>
                                 @endforeach
                             @endforeach
@@ -125,14 +91,12 @@
                                 const rateOfQualityProduct = item.data.map(innerItem =>
                                     innerItem.quality.rate_of_quality_product);
 
-                                const oeeValues = availabilityRatio.map((ratio, index) => {
-                                    let oee = Math.abs((ratio *
-                                            performanceEfficiency[index] *
-                                            rateOfQualityProduct[index]) /
-                                        10000);
-                                    oee = Math.max(0, Math.min(100, oee));
-                                    return oee;
-                                });
+                        const oeeValues = availabilityRatio.map((ratio, index) => {
+                            let oee = Math.abs((ratio * performanceEfficiency[index] *
+                                rateOfQualityProduct[index]) / 10000);
+                            oee = Math.max(0, Math.min(100, oee));
+                            return oee;
+                        });
 
 
                                 const averageOEE = oeeValues.reduce((acc, value) => acc +
