@@ -16,7 +16,8 @@
                 <td>{{ $value->availability->availability_ratio }}</td>
                 <td>{{ $value->performance->performance_efficiency }}</td>
                 <td>{{ $value->quality->rate_of_quality_product }}</td>
-<td>{{ ceil($value->availability->availability_ratio + $value->performance->performance_efficiency + $value->quality->rate_of_quality_product) }}</td>
+                <td>{{ floor($value->availability->availability_ratio + $value->performance->performance_efficiency + $value->quality->rate_of_quality_product) }}
+                </td>
             </tr>
         @endforeach
     </tbody>

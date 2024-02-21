@@ -139,7 +139,7 @@
 
                                 arrays.push(averageOEE);
 
-                                return averageOEE;
+                                return Math.floor(averageOEE);
                             }),
                             backgroundColor: '#6777ef'
                         }]
@@ -168,8 +168,8 @@
                     totalOee += item / numberOfNonNaN;
                 }
             });
-            totalOee = Math.ceil(totalOee);
-            document.getElementById("totalOee").textContent = totalOee;
+
+            document.getElementById("totalOee").value = Math.floor(totalOee);
 
         });
     </script>
